@@ -1,0 +1,52 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Matematyczne podstway sieci neuronowych",
+    "section": "",
+    "text": "Słowo wstępne\nNotatki te powstają na potrzeby kursu o tym samym tytule, zaproponowanego w semestrze letnim roku akademickiego 2026/2027 w Instytucie Matematycznym Uniwersytetu Wrocławskiego.\nIch głównym celem jest zaznajomienie autora (a siłą rzeczy także czytelnika) z podstawowymi zasadami działania sieci neuronowych, które stanowią jeden z fundamentów dużych modeli językowych oraz modeli generatywnych. Nie chcemy traktować poszczególnych warstw sieci neuronowych jak czarnych skrzynek. Zamiast tego, poprzez analizę i implementację prostych, niskowymiarowych przykładów, będziemy starali się zrozumieć mechanizmy ich działania, a także ich mocne i słabe strony.\nLista źródeł, z których będę korzystał podczas przygotowywania tych notatek, ma charakter rozwojowy. Obecnie głównymi pozycjami są:\n\nMathematics of Neural Networks, Bart Smets, https://arxiv.org/pdf/2403.04807\nAlice’s Adventures in a Differentiable Wonderland, Simone Scardapane, https://arxiv.org/pdf/2404.17625\nNeural Networks and Deep Learning, Michael Nielsen, http://neuralnetworksanddeeplearning.com/\n\nNotatki mają charakter roboczy i (jak wszystko we wstępnych fazach rozwoju) mogą zawierać błędy. Będę wdzięczny za zgłoszenie każdej usterki znalezionej w tekście.\nNotatki są przygotowywane w Quarto, otwartym systemie do tworzenia publikacji naukowych i technicznych. Więcej informacji o Quarto można znaleźć na stronie https://quarto.org/.",
+    "crumbs": [
+      "Słowo wstępne"
+    ]
+  },
+  {
+    "objectID": "intro.html",
+    "href": "intro.html",
+    "title": "1  Wstęp",
+    "section": "",
+    "text": "W ciągu ostatnich kilkunastu lat uczenie maszynowe przeszło ogromny rozwój. Szczególną rolę odegrało w tym głębokie uczenie, oparte na sieciach neuronowych. Dzięki połączeniu prostych idei algorytmicznych, dużych zbiorów danych oraz rosnącej mocy obliczeniowej możliwe stało się rozwiązywanie zadań, które wcześniej były bardzo trudne, takich jak rozpoznawanie obrazów, przetwarzanie języka naturalnego, rozpoznawanie mowy czy analiza złożonych danych.\nSieci neuronowe są dziś jednym z podstawowych narzędzi sztucznej inteligencji. Wykorzystuje się je zarówno w widocznych zastosowaniach, takich jak duże modele językowe i generatory obrazów, jak i w systemach działających w tle: wyszukiwarkach, systemach rekomendacyjnych, analizie obrazów medycznych, projektowaniu leków czy technologiach autonomicznych.\nUczenie maszynowe polega na budowaniu modeli, które poprawiają swoje działanie na podstawie danych. Zamiast ręcznie projektować algorytm rozwiązujący dane zadanie, wybieramy ogólny model i uczymy go na przykładach. Gdy modelem tym jest sieć neuronowa z wieloma warstwami, mówimy o głębokim uczeniu.\nWażnym czynnikiem rozwoju głębokiego uczenia okazało się skalowanie. Zwiększanie rozmiaru modeli, ilości danych i mocy obliczeniowej często prowadzi do przewidywalnej poprawy wyników. Dzięki temu proste i ogólne metody, zastosowane w odpowiednio dużej skali, stały się niezwykle skuteczne.\nMimo imponujących sukcesów praktycznych nadal nie rozumiemy w pełni, dlaczego głębokie sieci neuronowe działają tak dobrze. Szczególnie interesujące jest to, że duże modele potrafią nie tylko zapamiętywać dane treningowe, ale także generalizować, czyli poprawnie działać na nowych przykładach.\nCelem tych notatek jest wprowadzenie w podstawowe idee sieci neuronowych i głębokiego uczenia. Będziemy analizować zarówno intuicję, jak i formalny opis matematyczny modeli, aby zrozumieć, jak proste komponenty - warstwy, funkcje aktywacji, parametry, funkcje straty i algorytmy optymalizacji - pozwalają budować systemy zdolne do rozwiązywania złożonych problemów. Aby w pełni zrozumieć zasady działania sieci neuronowych skupimy się na niskowymiarowych przykładach.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Wstęp</span>"
+    ]
+  },
+  {
+    "objectID": "summary.html",
+    "href": "summary.html",
+    "title": "2  Summary",
+    "section": "",
+    "text": "In summary, this book has no content whatsoever.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Summary</span>"
+    ]
+  },
+  {
+    "objectID": "references.html",
+    "href": "references.html",
+    "title": "References",
+    "section": "",
+    "text": "Knuth, Donald E. 1984. “Literate Programming.” Comput.\nJ. (USA) 27 (2): 97–111. https://doi.org/10.1093/comjnl/27.2.97.",
+    "crumbs": [
+      "References"
+    ]
+  },
+  {
+    "objectID": "11_Redukcja_wymiaru.html",
+    "href": "11_Redukcja_wymiaru.html",
+    "title": "12  Redukcja Wymiaru",
+    "section": "",
+    "text": "PCA Krótko: po co redukujemy wymiar? SNE / t-SNE jako metoda wizualizacji UMAP jako metoda wizualizacji",
+    "crumbs": [
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>Redukcja Wymiaru</span>"
+    ]
+  }
+]

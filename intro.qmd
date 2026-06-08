@@ -1,0 +1,35 @@
+# Wstęp
+
+W ciągu ostatnich kilkunastu lat uczenie maszynowe przeszło ogromny rozwój. 
+Szczególną rolę odegrało w tym głębokie uczenie, oparte na sieciach neuronowych. 
+Dzięki połączeniu prostych idei algorytmicznych, dużych zbiorów danych oraz 
+rosnącej mocy obliczeniowej możliwe stało się rozwiązywanie zadań, 
+które wcześniej były bardzo trudne, takich jak rozpoznawanie obrazów, 
+przetwarzanie języka naturalnego, rozpoznawanie mowy czy analiza złożonych danych.
+
+Sieci neuronowe są dziś jednym z podstawowych narzędzi sztucznej inteligencji. 
+Wykorzystuje się je zarówno w widocznych zastosowaniach, takich jak duże modele językowe i 
+generatory obrazów, jak i w systemach działających w tle: 
+wyszukiwarkach, systemach rekomendacyjnych, analizie obrazów medycznych, 
+projektowaniu leków czy technologiach autonomicznych.
+
+Uczenie maszynowe polega na budowaniu modeli, które poprawiają swoje działanie na podstawie danych. 
+Zamiast ręcznie projektować algorytm rozwiązujący dane zadanie, wybieramy ogólny model i 
+uczymy go na przykładach. Gdy modelem tym jest sieć neuronowa z wieloma warstwami, 
+mówimy o głębokim uczeniu.
+
+Ważnym czynnikiem rozwoju głębokiego uczenia okazało się skalowanie. 
+Zwiększanie rozmiaru modeli, ilości danych i mocy obliczeniowej często prowadzi do 
+przewidywalnej poprawy wyników. Dzięki temu proste i ogólne metody, 
+zastosowane w odpowiednio dużej skali, stały się niezwykle skuteczne.
+
+Mimo imponujących sukcesów praktycznych nadal nie rozumiemy w pełni, 
+dlaczego głębokie sieci neuronowe działają tak dobrze. 
+Szczególnie interesujące jest to, że duże modele potrafią nie tylko zapamiętywać dane 
+treningowe, ale także generalizować, czyli poprawnie działać na nowych przykładach.
+
+Celem tych notatek jest wprowadzenie w podstawowe idee sieci neuronowych i głębokiego uczenia. 
+Będziemy analizować zarówno intuicję, jak i formalny opis matematyczny modeli, aby zrozumieć, 
+jak proste komponenty - warstwy, funkcje aktywacji, parametry, funkcje straty i algorytmy 
+optymalizacji -  pozwalają budować systemy zdolne do rozwiązywania złożonych problemów.
+Aby w pełni zrozumieć zasady działania sieci neuronowych skupimy się na niskowymiarowych przykładach. 

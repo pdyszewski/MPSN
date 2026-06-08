@@ -1,0 +1,6 @@
+# Redukcja Wymiaru
+
+   PCA
+   Krótko: po co redukujemy wymiar?
+   SNE / t-SNE jako metoda wizualizacji
+   UMAP jako metoda wizualizacji

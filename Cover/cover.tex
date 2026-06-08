@@ -1,0 +1,49 @@
+\documentclass[a4paper,12pt]{article}
+
+\usepackage[margin=0cm]{geometry}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usepackage{fontspec}
+
+\setmainfont{TeX Gyre Pagella}
+
+\pagestyle{empty}
+
+% ===== DANE DO ZMIANY =====
+\newcommand{\CoverImage}{cover_bg.png}
+
+\newcommand{\CourseTitle}{Matematyczne \mbox{podstawy} sieci neuronowych}
+\newcommand{\AuthorName}{Piotr Dyszewski}
+% ==========================
+
+\begin{document}
+
+\begin{tikzpicture}[remember picture, overlay]
+
+    % Tło okładki
+    \node[anchor=center] at (current page.center) {
+        \includegraphics[
+            width=\paperwidth,
+            height=\paperheight
+        ]{\CoverImage}
+    };
+
+    % Delikatna warstwa poprawiająca czytelność tekstu
+    \fill[white, opacity=0.72]
+        ([xshift=1.5cm,yshift=-14.2cm]current page.north west)
+        rectangle
+        ([xshift=-1.5cm,yshift=-19.1cm]current page.north east);
+
+    % Tytuł
+    \node[
+        anchor=north west,
+        text width=15.5cm,
+        align=center
+    ] at ([xshift=2.1cm,yshift=-14.65cm]current page.north west) {
+        {\fontsize{28}{36}\selectfont\bfseries \CourseTitle \vskip .75cm  \fontsize{22}{28}\selectfont \AuthorName}
+    };
+
+\end{tikzpicture}
+
+\end{document}

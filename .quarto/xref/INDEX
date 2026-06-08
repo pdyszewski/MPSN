@@ -1,0 +1,53 @@
+{
+  "index.qmd": {
+    "index.html": "b3a8c78d"
+  },
+  "intro.qmd": {
+    "intro.html": "24c444e4"
+  },
+  "summary.qmd": {
+    "summary.html": "77b8acb1"
+  },
+  "references.qmd": {
+    "references.html": "c0d57fcb"
+  },
+  "01_Supervised_Learning.qmd": {
+    "01_Supervised_Learning.html": "2f9b8ead"
+  },
+  "02_Artificial_Neurons.qmd": {
+    "02_Artificial_Neurons.html": "a85d9775"
+  },
+  "03_Shallow_Networks.qmd": {
+    "03_Shallow_Networks.html": "bf0c6b30"
+  },
+  "04_Stochastic_Gradient_Descent.qmd": {
+    "04_Stochastic_Gradient_Descent.html": "889c775f"
+  },
+  "05_Training.qmd": {
+    "05_Training.html": "29f68abe"
+  },
+  "06_Deep_Neural_Networks.qmd": {
+    "06_Deep_Neural_Networks.html": "b2e0ee8f"
+  },
+  "07_Initialization.qmd": {
+    "07_Initialization.html": "313e506a"
+  },
+  "08_Convolutional_Neural_Networks.qmd": {
+    "08_Convolutional_Neural_Networks.html": "ae6a9321"
+  },
+  "09_Automatic_Differentiation_Backpropagation.qmd": {
+    "09_Automatic_Differentiation_Backpropagation.html": "1777eb03"
+  },
+  "10_Adaptive_Learning_Rate_Algorithms.qmd": {
+    "10_Adaptive_Learning_Rate_Algorithms.html": "cf19c738"
+  },
+  "11_Redukcja_wymiaru.qmd": {
+    "11_Redukcja_wymiaru.html": "dfb2e9c6"
+  },
+  "12_Autoenkodery.qmd": {
+    "12_Autoenkodery.html": "fe9e2eb0"
+  },
+  "13_Diffusion_Models.qmd": {
+    "13_Diffusion_Models.html": "57d5ebe9"
+  }
+}

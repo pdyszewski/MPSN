@@ -1,6 +1,6 @@
 project:
   type: book
-
+  output-dir: docs
 lang: pl
 
 book:
@@ -9,7 +9,7 @@ book:
   search: true
   date: "6/8/2026"
   page-footer: "Copyright 2026, Piotr Dyszewski"
-  downloads: [pdf, epub]
+  downloads: [pdf]
   repo-url: https://github.com/pdyszewski
   cover-image: Cover/cover.png
   chapters:

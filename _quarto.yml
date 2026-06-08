@@ -10,7 +10,7 @@ book:
   date: "6/8/2026"
   page-footer: "Copyright 2026, Piotr Dyszewski"
   downloads: [pdf]
-  repo-url: https://github.com/pdyszewski
+  repo-url: https://github.com/pdyszewski/MPSN
   cover-image: Cover/cover.png
   chapters:
     - index.qmd

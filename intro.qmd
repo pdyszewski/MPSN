@@ -18,11 +18,6 @@ Zamiast ręcznie projektować algorytm rozwiązujący dane zadanie, wybieramy og
 uczymy go na przykładach. Gdy modelem tym jest sieć neuronowa z wieloma warstwami, 
 mówimy o głębokim uczeniu.
 
-Ważnym czynnikiem rozwoju głębokiego uczenia okazało się skalowanie. 
-Zwiększanie rozmiaru modeli, ilości danych i mocy obliczeniowej często prowadzi do 
-przewidywalnej poprawy wyników. Dzięki temu proste i ogólne metody, 
-zastosowane w odpowiednio dużej skali, stały się niezwykle skuteczne.
-
 Mimo imponujących sukcesów praktycznych nadal nie rozumiemy w pełni, 
 dlaczego głębokie sieci neuronowe działają tak dobrze. 
 Szczególnie interesujące jest to, że duże modele potrafią nie tylko zapamiętywać dane 

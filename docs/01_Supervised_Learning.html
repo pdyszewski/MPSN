@@ -256,7 +256,9 @@ window.Quarto = {
     <h2 id="toc-title">Spis treści</h2>
    
   <ul>
-  <li><a href="#regresja-i-klasyfikacja" id="toc-regresja-i-klasyfikacja" class="nav-link active" data-scroll-target="#regresja-i-klasyfikacja"><span class="header-section-number">2.1</span> Regresja i klasyfikacja</a></li>
+  <li><a href="#uczenie-maszynowe" id="toc-uczenie-maszynowe" class="nav-link active" data-scroll-target="#uczenie-maszynowe"><span class="header-section-number">2.1</span> Uczenie maszynowe</a></li>
+  <li><a href="#problem-uczenia-nadzorowanego" id="toc-problem-uczenia-nadzorowanego" class="nav-link" data-scroll-target="#problem-uczenia-nadzorowanego"><span class="header-section-number">2.2</span> Problem uczenia nadzorowanego</a></li>
+  <li><a href="#regresja-i-klasyfikacja" id="toc-regresja-i-klasyfikacja" class="nav-link" data-scroll-target="#regresja-i-klasyfikacja"><span class="header-section-number">2.3</span> Regresja i klasyfikacja</a></li>
   </ul>
 </nav>
     </div>
@@ -282,9 +284,25 @@ window.Quarto = {
 </header>
 
 
-<p>Istnieją różne rodzaje uczenia maszynowego. My będziemy skupiać się na <strong>uczeniu nadzorowanym</strong>. Uczenie nadzorowane to paradygmat uczenia maszynowego, w którym dostępne dane składają się z par wejść oraz znanych, poprawnych wyjść. Nieznane jest natomiast to, jak dokładnie działa odwzorowanie między tymi wejściami i wyjściami. Celem jest wywnioskowanie, na podstawie dostępnych danych, ogólnej struktury tego odwzorowania, w nadziei, że będzie ono uogólniać się na niewidziane wcześniej sytuacje. Formalnie problem ten możemy sformułować następująco.</p>
-<p><strong>Problem uczenia nadzorowanego</strong><br>
-Dana jest nieznana funkcja <span class="math inline">\(f : X \to Y\)</span> między przestrzeniami <span class="math inline">\(X\)</span> oraz <span class="math inline">\(Y\)</span>. Należy znaleźć dobre przybliżenie funkcji <span class="math inline">\(f\)</span>, korzystając wyłącznie ze zbioru danych złożonego z <span class="math inline">\(N\)</span> próbek:</p>
+<section id="uczenie-maszynowe" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="uczenie-maszynowe"><span class="header-section-number">2.1</span> Uczenie maszynowe</h2>
+<p>Istnieje kilka sposobów poznawania otaczającego nas świata. Paradygmaty kilku z nich widać w metodach uczenia maszynowego.</p>
+<p>Uczyć się możemy od nauczyciela, który pokazuje nam błędy w wypracowaniach czy rachunkach. Może być to też rodzic z małym dzieckiem, który opowiada mu otaczający go świat (na widok psa tłumaczy dziecku “to jest pies”). Mówimy wówczas o <strong>uczeniu nadzorowanym</strong>.</p>
+<p>Możemy uczyć się sami. Po wysłuchaniu kilku utworów muzycznych lub obejrzeniu kilku filmów sami zaczynamy dostrzegać pewne powtarzające się motywy. Dziecko bawiące się samodzielnie samo zauważa, że okrągłe przedmioty się toczą. Są to przykłady <strong>uczenia nienadzorowanego</strong>. Jest to pewnego rodzaju porządkowanie doświadczenia. Umysł nie tylko biernie odbiera dane, ale sam szuka regularności i tworzy kategorie.</p>
+<p>Możemy też uczyć się przez konsekwencje. Dziecko może raz dotknąć gorącego kubka, po czym więcej tak nie zrobi. Ogólniej człowiek uczy się ostrożności po bolesnym błędzie. Podczas tresury psy są wynagradzane przez swoich właścicieli przysmakami. Są to przykłady <strong>uczenia przez wzmacnianie</strong>.</p>
+<p>W tym momencie można zapytać jeszcze co co znaczy nauczyć się czegoś. Oznacza to opanowanie pewnej umiejętności na tyle, by móc ją powtarzać w zmieniających się warunkach. Aby móc doprecyzować to stwierdzenie, będziemy skupiać się od tej pory na <strong>uczeniu nadzorowanym</strong>.</p>
+<div id="exm-det" class="theorem example">
+<p><span class="theorem-title"><strong>Przykład 2.1</strong></span> Student na kursie algebry liniowej uczy się liczyć wyznaczniki macierzy <span class="math inline">\(3\times 3\)</span>. Jego celem jest wykazanie się tą umiejętnością na kolokwium. Oznacza to, że musi być w stanie policzyć wyznacznik dowolnej macierzy <span class="math inline">\(3\times 3\)</span> nawet jeżeli nie widział jej wcześniej. Wyznacznik macierzy <span class="math inline">\(\det\)</span> to funkcja ze zbioru macierzy <span class="math inline">\(M_{3\times 3}\)</span> w zbiór liczb rzeczywistych <span class="math inline">\(\mathbb{R}\)</span>. Matematycznie możemy powiedzieć, że w trakcie nauki student oblicza wartości wyznacznika <span class="math inline">\(\det(m)\)</span> dla macierzy <span class="math inline">\(m\)</span> pochodzących z pewnego podzbioru <span class="math inline">\(A \subseteq M_{3 \times 3}\)</span> macierzy na których się uczy. W trakcie kolokwium student ma za zadanie wykazać się umiejętnością obliczenia wyznacznika macierzy spoza zbioru <span class="math inline">\(A\)</span>.</p>
+</div>
+<p>W podobnym duchu będziemy rozumieli nauczenie się czegoś przez maszynę. Chcemy aby program komputerowy był w stanie obliczyć wartość funkcji <span class="math inline">\(f \colon \mathcal{X} \to \mathcal{Y}\)</span>. Oczywiście w przypadku niewielkich dziedzin <span class="math inline">\(X\)</span> i łatwych odwzorowań <span class="math inline">\(f\)</span> możemy podać komputerowi jawny wzór funkcji <span class="math inline">\(f\)</span>. Wyzwanie pojawie się w momencie, w którym przestrzeń <span class="math inline">\(X\)</span> staje się duża, a interesująca nas funkcja <span class="math inline">\(f\)</span> zbyt złożona aby móc podać ją bezpośrednim wzorem.</p>
+<div id="exm-czyt" class="theorem example">
+<p><span class="theorem-title"><strong>Przykład 2.2</strong></span> W trakcie nauki czytania pisma odręcznego dziecko uczy się rozpoznawać litery. Dziecko rozpoznaje literę alfabetu na podstawie obrazka o wymiarach <span class="math inline">\(h\times w\)</span>. Matematycznie jest to funkcja z podzbioru czarno białych obrazków <span class="math inline">\(X\subseteq \{0,1\}^{h \times w}\)</span> (wykluczając pewne patologiczne przykłady) w alfabet <span class="math inline">\(Y = \{a, b, \ldots, z\}\)</span>. Jeżeli <span class="math inline">\(X\)</span> składa się z czytelnych liter, to <span class="math inline">\(f\)</span> jest dobrze określoną funkcją, ponieważ dla każdego czytelnego obrazka <span class="math inline">\(x \in X\)</span> potrafimy jednoznacznie odczytać zapisaną na nim literę <span class="math inline">\(f(x)\)</span>. Napisanie jednak <span class="math inline">\(f\)</span> wzorem ogólnym jest praktycznie niemożliwe.</p>
+</div>
+<p>Zauważmy, że <a href="#exm-det" class="quarto-xref">Przykład&nbsp;<span>2.1</span></a> oraz <a href="#exm-czyt" class="quarto-xref">Przykład&nbsp;<span>2.2</span></a> są fundamentalnie różne. W przypadku pierwszego stanieje jawna procedura postępowania. W drugim przypadku nie jesteśmy w stanie efektywnie wyznaczyć procedury. Okazuje się jednak, że jesteśmy w stanie</p>
+</section>
+<section id="problem-uczenia-nadzorowanego" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="problem-uczenia-nadzorowanego"><span class="header-section-number">2.2</span> Problem uczenia nadzorowanego</h2>
+<p>Uczenie nadzorowane to paradygmat uczenia maszynowego, w którym dostępne dane składają się z par wejść oraz znanych, poprawnych wyjść. Nieznane jest natomiast to, jak dokładnie działa odwzorowanie między tymi wejściami i wyjściami. Celem jest wywnioskowanie, na podstawie dostępnych danych, ogólnej struktury tego odwzorowania, w nadziei, że będzie ono uogólniać się na niewidziane wcześniej sytuacje. Formalnie problem ten możemy sformułować następująco. Dana jest nieznana funkcja <span class="math inline">\(f \colon \mathcal{X} \to \mathcal{Y}\)</span> między przestrzeniami <span class="math inline">\(\mathcal{X}\)</span> oraz <span class="math inline">\(\mathcal{Y}\)</span>. Należy znaleźć dobre przybliżenie funkcji <span class="math inline">\(f\)</span>, korzystając wyłącznie ze zbioru danych złożonego z <span class="math inline">\(N\)</span> próbek:</p>
 <p><span class="math display">\[
 \mathcal{D} = \left\{(x_i, y_i)\right\}_{i=1}^{N}
 \quad \text{przy czym} \quad
@@ -372,8 +390,9 @@ Niech <span class="math inline">\(W = \mathbb{R}^n\)</span> oraz</p>
 C(w) = \|w\|^2.
 \]</span></p>
 <p>W kontekście sieci neuronowych ten typ regularyzacji parametrów nazywany jest również <strong>zanikiem wag</strong> (<em>weight decay</em>).</p>
-<section id="regresja-i-klasyfikacja" class="level2" data-number="2.1">
-<h2 data-number="2.1" class="anchored" data-anchor-id="regresja-i-klasyfikacja"><span class="header-section-number">2.1</span> Regresja i klasyfikacja</h2>
+</section>
+<section id="regresja-i-klasyfikacja" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="regresja-i-klasyfikacja"><span class="header-section-number">2.3</span> Regresja i klasyfikacja</h2>
 <p>Uczenie nadzorowane powinno już brzmieć znajomo. Rzeczywiście, jeśli</p>
 <p><span class="math display">\[
 X = \mathbb{R}^n

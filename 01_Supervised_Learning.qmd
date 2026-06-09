@@ -1,15 +1,53 @@
 # Uczenie nadzorowane
 
+## Uczenie maszynowe
 
-Istnieją różne rodzaje uczenia maszynowego. My będziemy skupiać się na **uczeniu nadzorowanym**. 
+Istnieje kilka sposobów poznawania otaczającego nas świata. Paradygmaty kilku z nich widać w metodach uczenia maszynowego. 
+
+Uczyć się możemy od nauczyciela, który pokazuje nam błędy w wypracowaniach czy rachunkach. Może być to też rodzic z małym dzieckiem,
+który opowiada mu otaczający go świat (na widok psa tłumaczy dziecku "to jest pies"). Mówimy wówczas o **uczeniu nadzorowanym**. 
+
+Możemy uczyć się sami. Po wysłuchaniu kilku utworów muzycznych lub obejrzeniu kilku filmów sami zaczynamy dostrzegać pewne powtarzające się motywy.
+Dziecko bawiące się samodzielnie samo zauważa, że okrągłe przedmioty się toczą. Są to przykłady **uczenia nienadzorowanego**. Jest to pewnego rodzaju 
+porządkowanie doświadczenia. Umysł nie tylko biernie odbiera dane, ale sam szuka regularności i tworzy kategorie.
+
+Możemy też uczyć się przez konsekwencje. Dziecko może raz dotknąć gorącego kubka, po czym więcej tak nie zrobi. Ogólniej człowiek uczy się ostrożności po bolesnym błędzie.
+Podczas tresury psy są wynagradzane przez swoich właścicieli przysmakami. Są to przykłady **uczenia przez wzmacnianie**.
+
+W tym momencie można zapytać jeszcze co co znaczy nauczyć się czegoś. Oznacza to opanowanie pewnej umiejętności na tyle, by móc ją powtarzać w zmieniających się warunkach. 
+Aby móc doprecyzować to stwierdzenie, będziemy skupiać się od tej pory na **uczeniu nadzorowanym**. 
+
+::: {#exm-det}
+Student na kursie algebry liniowej uczy się liczyć wyznaczniki macierzy $3\times 3$. Jego celem jest wykazanie się tą umiejętnością na kolokwium. 
+Oznacza to, że musi być w stanie policzyć wyznacznik dowolnej macierzy $3\times 3$ nawet jeżeli nie widział jej wcześniej.
+Wyznacznik macierzy $\det$ to funkcja ze zbioru macierzy $M_{3\times 3}$ w zbiór liczb rzeczywistych $\mathbb{R}$. Matematycznie możemy powiedzieć, że w trakcie nauki student
+oblicza wartości wyznacznika $\det(m)$ dla macierzy $m$ pochodzących z pewnego podzbioru $A \subseteq M_{3 \times 3}$ macierzy na których się uczy. W trakcie kolokwium 
+student ma za zadanie wykazać się umiejętnością obliczenia wyznacznika macierzy spoza zbioru $A$. 
+:::
+
+W podobnym duchu będziemy rozumieli nauczenie się czegoś przez maszynę. Chcemy aby program komputerowy był w stanie obliczyć wartość funkcji 
+$f \colon \mathcal{X} \to \mathcal{Y}$. Oczywiście w przypadku niewielkich dziedzin $X$ i łatwych odwzorowań $f$ możemy podać komputerowi
+jawny wzór funkcji $f$. Wyzwanie pojawie się w momencie, w którym przestrzeń $X$ staje się duża, a interesująca nas funkcja $f$ zbyt złożona aby 
+móc podać ją bezpośrednim wzorem.
+
+::: {#exm-czyt}
+W trakcie nauki czytania pisma odręcznego dziecko uczy się rozpoznawać litery. Dziecko rozpoznaje literę alfabetu na podstawie obrazka o wymiarach $h\times w$.
+Matematycznie jest to funkcja z podzbioru czarno białych obrazków $X\subseteq \{0,1\}^{h \times w}$ (wykluczając pewne patologiczne przykłady) 
+w alfabet $Y = \{a, b, \ldots, z\}$. Jeżeli $X$ składa się z czytelnych liter, to $f$ jest dobrze określoną funkcją, ponieważ dla każdego czytelnego obrazka $x \in X$
+potrafimy jednoznacznie odczytać zapisaną na nim literę $f(x)$. Napisanie jednak $f$ wzorem ogólnym jest praktycznie niemożliwe.
+:::
+
+Zauważmy, że @exm-det oraz @exm-czyt są fundamentalnie różne. W przypadku pierwszego stanieje jawna procedura postępowania. W drugim przypadku nie jesteśmy w stanie 
+efektywnie wyznaczyć procedury. Okazuje się jednak, że jesteśmy w stanie 
+
+## Problem uczenia nadzorowanego
+
 Uczenie nadzorowane to paradygmat uczenia maszynowego, w którym dostępne dane składają się z par wejść oraz znanych, poprawnych wyjść. 
 Nieznane jest natomiast to, jak dokładnie działa odwzorowanie między tymi wejściami i wyjściami. 
-Celem jest wywnioskowanie, na podstawie dostępnych danych, ogólnej struktury tego odwzorowania, 
-w nadziei, że będzie ono uogólniać się na niewidziane wcześniej sytuacje. 
-Formalnie problem ten możemy sformułować następująco.
-
-**Problem uczenia nadzorowanego**  
-Dana jest nieznana funkcja $f : X \to Y$ między przestrzeniami $X$ oraz $Y$. Należy znaleźć dobre przybliżenie funkcji $f$, korzystając wyłącznie ze zbioru danych złożonego z $N$ próbek:
+Celem jest wywnioskowanie, na podstawie dostępnych danych, ogólnej struktury tego odwzorowania, w nadziei, 
+że będzie ono uogólniać się na niewidziane wcześniej sytuacje. Formalnie problem ten możemy sformułować następująco.
+Dana jest nieznana funkcja $f \colon \mathcal{X} \to \mathcal{Y}$ między przestrzeniami $\mathcal{X}$ oraz $\mathcal{Y}$. 
+Należy znaleźć dobre przybliżenie funkcji $f$, korzystając wyłącznie ze zbioru danych złożonego z $N$ próbek:
 
 $$
 \mathcal{D} = \left\{(x_i, y_i)\right\}_{i=1}^{N}

@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="pl" xml:lang="pl"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.9.35">
+<meta name="generator" content="quarto-1.9.36">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>2&nbsp; Supervised Learning – Matematyczne podstway sieci neuronowych</title>
+<title>2&nbsp; Uczenie nadzorowane – Matematyczne podstway sieci neuronowych</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -41,10 +41,10 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-46f66b053e56abd73bb6e954d61a315b.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-845c23b38eaddc0f92fda52bfe77a8c8.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-36340e677b6b248b027830baa226fb51.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-9e3e5b9121e68b3f077afb32f2c64d95.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -73,6 +73,35 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="styles.css">
 </head>
@@ -86,7 +115,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Przełącz pasek boczny" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./01_Supervised_Learning.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Supervised Learning</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./01_Supervised_Learning.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Uczenie nadzorowane</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Przełącz pasek boczny" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Szukaj" onclick="window.quartoOpenSearch();">
@@ -103,7 +132,7 @@ ul.task-list li input[type="checkbox"] {
     <div class="sidebar-title mb-0 py-0">
       <a href="./">Matematyczne podstway sieci neuronowych</a> 
         <div class="sidebar-tools-main">
-    <a href="https://github.com/pdyszewski" title="Kod źródłowy" class="quarto-navigation-tool px-1" aria-label="Kod źródłowy"><i class="bi bi-github"></i></a>
+    <a href="https://github.com/pdyszewski/MPSN" title="Kod źródłowy" class="quarto-navigation-tool px-1" aria-label="Kod źródłowy"><i class="bi bi-github"></i></a>
     <a href="./Matematyczne-podstway-sieci-neuronowych.pdf" title="Download PDF" class="quarto-navigation-tool px-1" aria-label="Download PDF"><i class="bi bi-file-pdf"></i></a>
 </div>
     </div>
@@ -130,7 +159,7 @@ ul.task-list li input[type="checkbox"] {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./01_Supervised_Learning.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Supervised Learning</span></span></a>
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Uczenie nadzorowane</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -222,15 +251,21 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Spis treści</h2>
+   
+  <ul>
+  <li><a href="#regresja-i-klasyfikacja" id="toc-regresja-i-klasyfikacja" class="nav-link active" data-scroll-target="#regresja-i-klasyfikacja"><span class="header-section-number">2.1</span> Regresja i klasyfikacja</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Supervised Learning</span></h1>
+<h1 class="title"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Uczenie nadzorowane</span></h1>
 </div>
 
 
@@ -247,8 +282,172 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<p>Istnieją różne rodzaje uczenia maszynowego. My będziemy skupiać się na <strong>uczeniu nadzorowanym</strong>. Uczenie nadzorowane to paradygmat uczenia maszynowego, w którym dostępne dane składają się z par wejść oraz znanych, poprawnych wyjść. Nieznane jest natomiast to, jak dokładnie działa odwzorowanie między tymi wejściami i wyjściami. Celem jest wywnioskowanie, na podstawie dostępnych danych, ogólnej struktury tego odwzorowania, w nadziei, że będzie ono uogólniać się na niewidziane wcześniej sytuacje. Formalnie problem ten możemy sformułować następująco.</p>
+<p><strong>Problem uczenia nadzorowanego</strong><br>
+Dana jest nieznana funkcja <span class="math inline">\(f : X \to Y\)</span> między przestrzeniami <span class="math inline">\(X\)</span> oraz <span class="math inline">\(Y\)</span>. Należy znaleźć dobre przybliżenie funkcji <span class="math inline">\(f\)</span>, korzystając wyłącznie ze zbioru danych złożonego z <span class="math inline">\(N\)</span> próbek:</p>
+<p><span class="math display">\[
+\mathcal{D} = \left\{(x_i, y_i)\right\}_{i=1}^{N}
+\quad \text{przy czym} \quad
+y_i = f(x_i)
+\quad \text{dla każdego } i = 1,\ldots,N.
+\]</span></p>
+<p>Przestrzeń <span class="math inline">\(X\)</span> nazywana jest również <strong>przestrzenią cech</strong>, a jej elementy określa się mianem wektorów cech. Przestrzeń <span class="math inline">\(Y\)</span> nazywana jest również <strong>przestrzenią etykiet</strong>, a jej elementy określa się mianem etykiet.</p>
+<p><strong>Przykład 1.1.</strong><br>
+Niech <span class="math inline">\(X\)</span> będzie przestrzenią wszystkich obrazów kotów i psów, a <span class="math inline">\(f\)</span> klasyfikatorem, który odwzorowuje elementy tej przestrzeni w zbiór</p>
+<p><span class="math display">\[
+Y = \{\text{"dog"}, \text{"cat"}\}.
+\]</span></p>
+<p>Możemy to wyrazić numerycznie jako</p>
+<p><span class="math display">\[
+X = [0,1]^{3 \times H \times W},
+\]</span></p>
+<p>czyli obraz o wysokości <span class="math inline">\(H\)</span>, szerokości <span class="math inline">\(W\)</span> oraz trzech kanałach koloru, oraz</p>
+<p><span class="math display">\[
+Y = [0,1]^2,
+\]</span></p>
+<p>czyli jedna wartość prawdopodobieństwa dla każdej z dwóch klas.</p>
+<p>Ogólne podejście do rozwiązania tego problemu składa się z trzech głównych kroków.</p>
+<ol type="1">
+<li><p>Wybieramy model<br>
+<span class="math display">\[
+F : X \times W \to Y
+\]</span> parametryzowany przez parametr z przestrzeni <span class="math inline">\(W\)</span>. Litera <span class="math inline">\(W\)</span> pochodzi od angielskiego słowa <em>weights</em>, ponieważ tak często określa się parametry w sieciach neuronowych.</p></li>
+<li><p>Musimy określić ilościowo jakość wyjścia modelu, dlatego wybieramy <strong>funkcję straty</strong> <span class="math display">\[
+\ell : Y \times Y \to \mathbb{R},
+\]</span> gdzie <span class="math inline">\(\ell(y_1, y_2)\)</span> określa, „jak różne” są <span class="math inline">\(y_1\)</span> oraz <span class="math inline">\(y_2\)</span>.</p></li>
+<li><p>Na podstawie zbioru danych oraz funkcji straty wybieramy <span class="math inline">\(w \in W\)</span> tak, aby <span class="math display">\[
+F(\cdot; w)
+\]</span> było możliwie najlepszym przybliżeniem funkcji docelowej <span class="math inline">\(f\)</span>.</p></li>
+</ol>
+<p>To wysokopoziomowe podejście pozostawia jednak kilka otwartych pytań.</p>
+<ul>
+<li>Jak wybrać model?</li>
+<li>Jak wybrać funkcję straty?</li>
+<li>Jak przeprowadzić optymalizację?</li>
+</ul>
+<p>Na żadne z tych pytań nie ma kanonicznych odpowiedzi. W dużej mierze rozwiązuje się je metodą prób i błędów oraz za pomocą heurystyk, ponieważ musimy podjąć pewne decyzje, zanim będziemy mogli zrobić jakikolwiek postęp. Niezależnie od tego wybory te mają duży wpływ na końcowy wynik, mimo że nie są bezpośrednio uzasadnione przez dostępne dane ani przez jakieś podstawowe zasady. Zbiorczy zestaw założeń, które przyjmujemy, aby móc zająć się problemem, nazywa się w uczeniu maszynowym <strong>biasem indukcyjnym</strong> (<em>inductive bias</em>).</p>
+<p>Na potrzeby tego kursu jako modele wybierzemy oczywiście sieci neuronowe; omówimy je dokładniej później. Drugą rzeczą, którą musimy zrobić, jest wybór funkcji straty. <strong>Funkcja straty</strong> to funkcja</p>
+<p><span class="math display">\[
+\ell : Y \times Y \to \mathbb{R},
+\]</span></p>
+<p>która działa podobnie do metryki, ale jest mniej restrykcyjna.</p>
+<ul>
+<li><p>Zwykle, choć nie zawsze, mamy <span class="math display">\[
+\ell : Y \times Y \to \mathbb{R}^{+}.
+\]</span></p></li>
+<li><p>Ponieważ chcemy minimalizować stratę, minimum powinno istnieć, tak aby wyrażenie <span class="math display">\[
+\min_{y \in Y} \ell(y_0, y)
+\]</span> było dobrze określone.</p></li>
+<li><p>Funkcja powinna być różniczkowalna, przynajmniej prawie wszędzie, ponieważ chcemy stosować spadek gradientowy.</p></li>
+<li><p>Własności metryczne, takie jak identyczność nierozróżnialnych, symetria czy nierówność trójkąta, nie muszą być spełnione.</p></li>
+</ul>
+<p>Po wybraniu modelu i funkcji straty przechodzimy do optymalizacji, czyli pytania: jaki jest „najlepszy” wybór parametru <span class="math inline">\(w \in W\)</span>? Najprostsza, choć niekoniecznie preferowana, odpowiedź brzmi: należy zminimalizować stratę na zbiorze danych, tzn. znaleźć</p>
+<p><span class="math display">\[
+w^* = \arg\min_{w \in W}
+\sum_{i=1}^{N} \ell(F(x_i; w), y_i).
+\]</span></p>
+<p><strong>Przykład 1.2</strong> <em>(liniowa metoda najmniejszych kwadratów).</em></p>
+<p><span class="math display">\[
+F(x; w) = \sum_{j=1}^{n} w_j \varphi_j(x)
+\]</span></p>
+<p>oraz</p>
+<p><span class="math display">\[
+\ell(y_1, y_2) = |y_1 - y_2|^2
+\]</span></p>
+<p>dla pewnych funkcji bazowych <span class="math inline">\(\{\varphi_j\}_j\)</span>. Otrzymujemy wtedy znane ustawienie liniowej metody najmniejszych kwadratów.</p>
+<p>„Najlepszy” parametr <span class="math inline">\(w \in W\)</span> niekoniecznie jest tym, który minimalizuje stratę na zbiorze danych. W każdym problemie optymalizacyjnym częstym problemem jest <strong>przeuczenie</strong> (<em>overfitting</em>). Prowadzi nas to do <strong>regularyzacji</strong>.</p>
+<p>Techniki regularyzacji dla sieci neuronowych omówimy szerzej później. Na razie wspomnimy tylko, że <strong>regularyzacja parametrów</strong> jest powszechną techniką znaną z regresji, często stosowaną również w sieciach neuronowych. Ten typ regularyzacji polega na dodaniu do straty na danych składnika karzącego, który zniechęca parametry do przyjmowania niepożądanych wartości, na przykład zbyt dużych. Zmodyfikowany problem optymalizacyjny ma postać</p>
+<p><span class="math display">\[
+w^* = \arg\min_{w \in W}
+\sum_{i=1}^{N} \ell(F(x_i; w), y_i) + \lambda C(w),
+\]</span></p>
+<p>gdzie <span class="math inline">\(\lambda &gt; 0\)</span> oraz</p>
+<p><span class="math display">\[
+C : W \to \mathbb{R}^{+}
+\]</span></p>
+<p>jest funkcją karzącą w pewien sposób złożoność modelu.</p>
+<p><strong>Przykład 1.3</strong> <em>(regularyzacja Tichonowa).</em><br>
+Niech <span class="math inline">\(W = \mathbb{R}^n\)</span> oraz</p>
+<p><span class="math display">\[
+C(w) = \|w\|^2.
+\]</span></p>
+<p>W kontekście sieci neuronowych ten typ regularyzacji parametrów nazywany jest również <strong>zanikiem wag</strong> (<em>weight decay</em>).</p>
+<section id="regresja-i-klasyfikacja" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="regresja-i-klasyfikacja"><span class="header-section-number">2.1</span> Regresja i klasyfikacja</h2>
+<p>Uczenie nadzorowane powinno już brzmieć znajomo. Rzeczywiście, jeśli</p>
+<p><span class="math display">\[
+X = \mathbb{R}^n
+\quad \text{oraz} \quad
+Y = \mathbb{R}^m,
+\]</span></p>
+<p>to mamy do czynienia z <strong>regresją</strong>.</p>
+<p>Regresja stanowi dużą część uczenia nadzorowanego, ale pojęcie uczenia nadzorowanego formułuje się ogólniej, tak aby obejmowało również inne zadania, takie jak <strong>klasyfikacja</strong>.</p>
+<p>Klasyfikacja to w uczeniu maszynowym określenie na logistyczną regresję wieloklasową, w której</p>
+<p><span class="math display">\[
+X = \mathbb{R}^n
+\]</span></p>
+<p>i próbujemy przypisać każdy punkt <span class="math inline">\(x \in X\)</span> do jednej z <span class="math inline">\(m\)</span> klas. Numeryczne wyjście dla tego typu problemu jest zwykle dyskretnym rozkładem prawdopodobieństwa na <span class="math inline">\(m\)</span> klasach:</p>
+<p><span class="math display">\[
+Y =
+\left\{
+(y_1,\ldots,y_m) \in [0,1]^m
+\ \middle|\
+\sum_{i=1}^{m} y_i = 1
+\right\}.
+\]</span></p>
+<p>Przykład 1.1 jest właśnie tego typu.</p>
+<p>W teorii uczenia statystycznego zakłada się, że próbki danych <span class="math inline">\((x_i,y_i)\)</span> są losowane niezależnie i z tego samego rozkładu, czyli i.i.d., z pewnego rozkładu prawdopodobieństwa <span class="math inline">\(\mu\)</span> na <span class="math inline">\(X \times Y\)</span>. <em>Zastanów się, dlaczego jest to dość duże założenie.</em></p>
+<p>Interesuje nas wtedy minimalizacja <strong>ryzyka populacyjnego</strong>:</p>
+<p><span class="math display">\[
+R(w)
+:=
+\mathbb{E}_{(x,y)\sim \mu}
+\left[
+\ell(F(x;w),y)
+\right]
+:=
+\int_{X \times Y}
+\ell(F(x;w),y)
+\, d\mu(x,y).
+\]</span></p>
+<p>Celem byłoby znalezienie zestawu parametrów, który minimalizuje to ryzyko populacyjne:</p>
+<p><span class="math display">\[
+w^*
+=
+\arg\min_{w \in W} R(w).
+\]</span></p>
+<p>W rzeczywistości jednak nie znamy <span class="math inline">\(\mu\)</span>, więc nie możemy nawet obliczyć ryzyka populacyjnego, nie mówiąc już o jego minimalizacji. Robimy zatem najlepszą dostępną rzecz: minimalizujemy <strong>ryzyko empiryczne</strong>:</p>
+<p><span class="math display">\[
+\widehat{R}(w)
+:=
+\frac{1}{N}
+\sum_{i=1}^{N}
+\ell(F(x_i;w),y_i).
+\]</span></p>
+<p>Zestaw parametrów minimalizujący ryzyko empiryczne nazywa się <strong>minimalizatorem empirycznym</strong>:</p>
+<p><span class="math display">\[
+\widehat{w}
+=
+\arg\min_{w \in W}
+\widehat{R}(w),
+\]</span></p>
+<p>co w kontekście uczenia nadzorowanego jest tym samym, co minimalizacja straty na zbiorze danych.</p>
+<p>Gdy dodamy składnik regularyzacyjny, tak jak wcześniej, otrzymujemy tak zwaną <strong>minimalizację ryzyka strukturalnego</strong>:</p>
+<p><span class="math display">\[
+\widehat{w}
+=
+\arg\min_{w \in W}
+\widehat{R}(w)
++
+\lambda C(w).
+\]</span></p>
+<p>Teoria uczenia statystycznego zajmuje się następnie badaniem takich zagadnień jak oszacowania różnicy</p>
+<p><span class="math display">\[
+\widehat{R}(\widehat{w}) - R(w^*).
+\]</span></p>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

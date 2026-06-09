@@ -46,17 +46,21 @@ Uczenie nadzorowane to paradygmat uczenia maszynowego, w którym dostępne dane 
 Nieznane jest natomiast to, jak dokładnie działa odwzorowanie między tymi wejściami i wyjściami. 
 Celem jest wywnioskowanie, na podstawie dostępnych danych, ogólnej struktury tego odwzorowania, w nadziei, 
 że będzie ono uogólniać się na niewidziane wcześniej sytuacje. Formalnie problem ten możemy sformułować następująco.
-Dana jest nieznana funkcja $f \colon \mathcal{X} \to \mathcal{Y}$ między przestrzeniami $\mathcal{X}$ oraz $\mathcal{Y}$. 
-Należy znaleźć dobre przybliżenie funkcji $f$, korzystając wyłącznie ze zbioru danych złożonego z $N$ próbek:
+Szukana funkcja $f \colon \mathcal{X} \to \mathcal{Y}$ między przestrzeniami $\mathcal{X}$ oraz $\mathcal{Y}$. 
+Znamy wartości funkcji $f$ na pewnym podzbiorze $\mathcal{A} \subseteq \mathcal{X}$.
+Matematycznie należy więc znaleźć dobre rozszerzenie funkcji $f$ z $\mathcal{A}$ do całej przestrzeni $\mathcal{X}$.
 
-$$
+W praktyce dany mamy zbiór danych złożony z $N$ próbek:
+
+\begin{equation*}
 \mathcal{D} = \left\{(x_i, y_i)\right\}_{i=1}^{N}
 \quad \text{przy czym} \quad
-y_i = f(x_i)
+f(x_i)=y_i
 \quad \text{dla każdego } i = 1,\ldots,N.
-$$
+\end{equation*}
 
-Przestrzeń $X$ nazywana jest również **przestrzenią cech**, a jej elementy określa się mianem wektorów cech. Przestrzeń $Y$ nazywana jest również **przestrzenią etykiet**, a jej elementy określa się mianem etykiet.
+Przestrzeń $\mathcal{X}$ nazywana jest również **przestrzenią cech**, a jej elementy określa się mianem wektorów cech. 
+Przestrzeń $\mathcal{Y}$ nazywana jest również **przestrzenią etykiet**, a jej elementy określa się mianem etykiet.
 
 **Przykład 1.1.**  
 Niech $X$ będzie przestrzenią wszystkich obrazów kotów i psów, a $f$ klasyfikatorem, który odwzorowuje elementy tej przestrzeni w zbiór
@@ -78,6 +82,8 @@ Y = [0,1]^2,
 $$
 
 czyli jedna wartość prawdopodobieństwa dla każdej z dwóch klas.
+
+
 
 Ogólne podejście do rozwiązania tego problemu składa się z trzech głównych kroków.
 

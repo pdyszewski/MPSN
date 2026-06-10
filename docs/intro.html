@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="pl" xml:lang="pl"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.9.36">
+<meta name="generator" content="quarto-1.9.35">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -23,7 +23,26 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -41,10 +60,10 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-845c23b38eaddc0f92fda52bfe77a8c8.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-46f66b053e56abd73bb6e954d61a315b.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-9e3e5b9121e68b3f077afb32f2c64d95.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-36340e677b6b248b027830baa226fb51.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -248,12 +267,22 @@ ul.task-list li input[type="checkbox"] {
 
 
 <p>W ciągu ostatnich kilkunastu lat uczenie maszynowe przeszło ogromny rozwój. Szczególną rolę odegrało w tym głębokie uczenie, oparte na sieciach neuronowych. Dzięki połączeniu prostych idei algorytmicznych, dużych zbiorów danych oraz rosnącej mocy obliczeniowej możliwe stało się rozwiązywanie zadań, które wcześniej były bardzo trudne, takich jak rozpoznawanie obrazów, przetwarzanie języka naturalnego, rozpoznawanie mowy czy analiza złożonych danych.</p>
-<p>Sieci neuronowe są dziś jednym z podstawowych narzędzi sztucznej inteligencji. Wykorzystuje się je zarówno w widocznych zastosowaniach, takich jak duże modele językowe i generatory obrazów, jak i w systemach działających w tle: wyszukiwarkach, systemach rekomendacyjnych, analizie obrazów medycznych, projektowaniu leków czy technologiach autonomicznych.</p>
+<p>Uczenie maszynowe to nauka programowania komputerów w taki sposób, aby mogły uczyć się na podstawie danych. Oto nieco bardziej ogólna definicja:</p>
+<blockquote class="blockquote">
+<p>Uczenie maszynowe to dziedzina badań, która daje komputerom zdolność uczenia się bez bycia jawnie zaprogramowanymi.</p>
+<p>— <span class="citation" data-cites="samuel1959some">Samuel (<a href="references.html#ref-samuel1959some" role="doc-biblioref">1959</a>)</span></p>
+</blockquote>
+<p>Sieci neuronowe są dziś jednym z podstawowych narzędzi uczenia maszynowego. Wykorzystuje się je zarówno w widocznych zastosowaniach, takich jak duże modele językowe i generatory obrazów, jak i w systemach działających w tle: wyszukiwarkach, systemach rekomendacyjnych, analizie obrazów medycznych, projektowaniu leków czy technologiach autonomicznych.</p>
 <p>Uczenie maszynowe polega na budowaniu modeli, które poprawiają swoje działanie na podstawie danych. Zamiast ręcznie projektować algorytm rozwiązujący dane zadanie, wybieramy ogólny model i uczymy go na przykładach. Gdy modelem tym jest sieć neuronowa z wieloma warstwami, mówimy o głębokim uczeniu.</p>
 <p>Mimo imponujących sukcesów praktycznych nadal nie rozumiemy w pełni, dlaczego głębokie sieci neuronowe działają tak dobrze. Szczególnie interesujące jest to, że duże modele potrafią nie tylko zapamiętywać dane treningowe, ale także generalizować, czyli poprawnie działać na nowych przykładach.</p>
 <p>Celem tych notatek jest wprowadzenie w podstawowe idee sieci neuronowych i głębokiego uczenia. Będziemy analizować zarówno intuicję, jak i formalny opis matematyczny modeli, aby zrozumieć, jak proste komponenty - warstwy, funkcje aktywacji, parametry, funkcje straty i algorytmy optymalizacji - pozwalają budować systemy zdolne do rozwiązywania złożonych problemów. Aby w pełni zrozumieć zasady działania sieci neuronowych skupimy się na niskowymiarowych przykładach.</p>
 
 
+<div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
+<div id="ref-samuel1959some" class="csl-entry" role="listitem">
+Samuel, Arthur L. 1959. <span>„Some studies in machine learning using the game of checkers”</span>. <em>IBM Journal of research and development</em> 3 (3): 210–29.
+</div>
+</div>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

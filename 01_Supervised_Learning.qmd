@@ -53,35 +53,64 @@ Matematycznie należy więc znaleźć dobre rozszerzenie funkcji $f$ z $\mathcal
 W praktyce dany mamy zbiór danych złożony z $N$ próbek:
 
 \begin{equation*}
-\mathcal{D} = \left\{(x_i, y_i)\right\}_{i=1}^{N}
-\quad \text{przy czym} \quad
-f(x_i)=y_i
-\quad \text{dla każdego } i = 1,\ldots,N.
+\mathcal{D} = \left\{(x_i, y_i)\right\}_{i=1}^{N},
 \end{equation*}
+przy czym
+\begin{equation*}
+f(x_i)=y_i,
+\end{equation*}
+dla $i \leq N$.
 
 Przestrzeń $\mathcal{X}$ nazywana jest również **przestrzenią cech**, a jej elementy określa się mianem wektorów cech. 
 Przestrzeń $\mathcal{Y}$ nazywana jest również **przestrzenią etykiet**, a jej elementy określa się mianem etykiet.
+Okazuje się, że w kontekście nauczania maszynowego zamiast uczyć komputer zwracać konkretną wartość
+ze zbioru etykiet $\mathcal{Y}$ wygodniej jest nauczyć go zwracać rozkład prawdopodobieństwa 
+na $\mathcal{Y}$. W ten sposób otrzymujemy więcej informacji, mamy kontrolę nad pewnością wyboru 
+oraz możemy kontrolować przypadki brzegowe.
 
-**Przykład 1.1.**  
-Niech $X$ będzie przestrzenią wszystkich obrazów kotów i psów, a $f$ klasyfikatorem, który odwzorowuje elementy tej przestrzeni w zbiór
 
-$$
-Y = \{\text{"dog"}, \text{"cat"}\}.
-$$
+::: {#exm-klas}
+Niech $\mathcal{X}$ będzie przestrzenią wszystkich obrazów kotów i psów. 
+Obraz możemy zapisać jako wektor:
+\begin{equation*}
+\mathcal{X} = [0,1]^{3 \times H \times W},
+\end{equation*}
+gdzie $H$ to wysokość obrazu, $W$ to szerokość, a $3$ bierze się z trzech kanałów kolorów: RGB.
+Klasyfikator $f$ ma przypisać obraz do jednej z dwóch klas:
+\begin{equation*}
+\{\text{pies}, \text{kot}\}.
+\end{equation*}
+Zamiast jednak zwracać od razu etykietę $\text{pies}$ albo $\text{kot}$, 
+model często zwraca wektor prawdopodobieństw:
+\begin{equation*}
+f(x) = (p_{\text{pies}}, p_{\text{kot}}).
+\end{equation*}
+Na przykład $f(x) = (0.87, 0.13)$ oznacza, że model ocenia obraz 
+jako psa z prawdopodobieństwem $0.87$, a jako kota z prawdopodobieństwem $0.13$.
+Decyzję końcową otrzymujemy przez wybór największego prawdopodobieństwa:
+\begin{equation*}
+y = \arg\max f(x).
+\end{equation*}
+W naszym przykładzie $y = \text{pies}$. Wektor prawdopodobieństw zawiera 
+informację o pewności modelu. Przykładowo oba wyniki prowadzą do tej samej etykiety:
+\begin{equation*}
+(0.51, 0.49) \mapsto \text{pies},
+\end{equation*}
+oraz
+\begin{equation*}
+(0.99, 0.01) \mapsto \text{pies}.
+\end{equation*}
+Pierwszy przypadek oznacza, że model jest prawie niezdecydowany, 
+a drugi, że jest bardzo pewny swojej decyzji.
 
-Możemy to wyrazić numerycznie jako
-
-$$
-X = [0,1]^{3 \times H \times W},
-$$
-
-czyli obraz o wysokości $H$, szerokości $W$ oraz trzech kanałach koloru, oraz
-
-$$
-Y = [0,1]^2,
-$$
-
-czyli jedna wartość prawdopodobieństwa dla każdej z dwóch klas.
+Ta informacja jest przydatna, ponieważ można ustalić próg akceptacji decyzji. Na przykład jeżeli
+\begin{equation*}
+\max \{ p_{\text{pies}}, p_{\text{kot}} \} < 0.8 
+\end{equation*}
+to model nie klasyfikuje automatycznie.
+Wtedy wynik $(0.51,0.49)$ można potraktować jako „nie wiem”, a wynik:
+$(0.99,0.01)$ jako pewną klasyfikację.
+:::
 
 
 
@@ -89,19 +118,22 @@ Ogólne podejście do rozwiązania tego problemu składa się z trzech głównyc
 
 1. Wybieramy model  
    $$
-   F : X \times W \to Y
+   F : \mathcal{X} \times \mathcal{W} \to \mathcal{Y}
    $$
-   parametryzowany przez parametr z przestrzeni $W$. Litera $W$ pochodzi od angielskiego słowa *weights*, ponieważ tak często określa się parametry w sieciach neuronowych.
+   parametryzowany przez parametr z przestrzeni $\mathcal{W}$. Litera $\mathcal{W}$ 
+   pochodzi od angielskiego słowa *weights*, 
+   ponieważ tak często określa się parametry w sieciach neuronowych.
 
 2. Musimy określić ilościowo jakość wyjścia modelu, dlatego wybieramy **funkcję straty**
    $$
-   \ell : Y \times Y \to \mathbb{R},
+   \ell : \mathcal{Y} \times \mathcal{Y} \to \mathbb{R},
    $$
-   gdzie $\ell(y_1, y_2)$ określa, „jak różne” są $y_1$ oraz $y_2$.
+   gdzie $\ell(y_1, y_2)$ określa, jak różne są $y_1$ oraz $y_2$.
 
-3. Na podstawie zbioru danych oraz funkcji straty wybieramy $w \in W$ tak, aby
+3. Na podstawie zbioru danych $\mathcal{D}$ oraz funkcji straty 
+   wybieramy $w \in W$ tak, aby
    $$
-   F(\cdot; w)
+   F(\cdot, w)
    $$
    było możliwie najlepszym przybliżeniem funkcji docelowej $f$.
 
@@ -112,51 +144,340 @@ To wysokopoziomowe podejście pozostawia jednak kilka otwartych pytań.
 - Jak wybrać funkcję straty?
 - Jak przeprowadzić optymalizację?
 
-Na żadne z tych pytań nie ma kanonicznych odpowiedzi. W dużej mierze rozwiązuje się je metodą prób i błędów oraz za pomocą heurystyk, ponieważ musimy podjąć pewne decyzje, zanim będziemy mogli zrobić jakikolwiek postęp. Niezależnie od tego wybory te mają duży wpływ na końcowy wynik, mimo że nie są bezpośrednio uzasadnione przez dostępne dane ani przez jakieś podstawowe zasady. Zbiorczy zestaw założeń, które przyjmujemy, aby móc zająć się problemem, nazywa się w uczeniu maszynowym **biasem indukcyjnym** (*inductive bias*).
+Na żadne z tych pytań nie ma kanonicznych odpowiedzi. 
+W dużej mierze rozwiązuje się je metodą prób i błędów oraz za pomocą heurystyk. 
+Niezależnie od tego wybory te mają duży wpływ na końcowy wynik, mimo że nie są 
+bezpośrednio uzasadnione przez dostępne dane ani przez jakieś podstawowe zasady. 
+Zbiorczy zestaw założeń, które przyjmujemy, aby móc zająć się problemem, 
+nazywa się w uczeniu maszynowym **biasem indukcyjnym** (*inductive bias*).
 
-Na potrzeby tego kursu jako modele wybierzemy oczywiście sieci neuronowe; omówimy je dokładniej później. Drugą rzeczą, którą musimy zrobić, jest wybór funkcji straty. **Funkcja straty** to funkcja
+Na potrzeby tego kursu jako modele wybierzemy oczywiście sieci neuronowe; 
+omówimy je dokładniej później. Drugą rzeczą, którą musimy zrobić, 
+jest wybór funkcji straty. Funkcja straty 
+działa podobnie do metryki, ale jest mniej restrykcyjna.
 
-$$
-\ell : Y \times Y \to \mathbb{R},
-$$
-
-która działa podobnie do metryki, ale jest mniej restrykcyjna.
-
-- Zwykle, choć nie zawsze, mamy
-  $$
-  \ell : Y \times Y \to \mathbb{R}^{+}.
-  $$
+- Zwykle (choć nie zawsze) mamy
+  $\ell(y)\geq 0$ dla każdego $y \in \mathcal{Y}$.
 
 - Ponieważ chcemy minimalizować stratę, minimum powinno istnieć, tak aby wyrażenie
   $$
   \min_{y \in Y} \ell(y_0, y)
   $$
-  było dobrze określone.
+  było dobrze określone dla każdego $y_0 \in \mathcal{Y}$.
 
-- Funkcja powinna być różniczkowalna, przynajmniej prawie wszędzie, ponieważ chcemy stosować spadek gradientowy.
+- Funkcja powinna być różniczkowalna, ponieważ chcemy stosować metody gradientowe.
 
-- Własności metryczne, takie jak identyczność nierozróżnialnych, symetria czy nierówność trójkąta, nie muszą być spełnione.
+- Własności metryki, takie jak symetria czy nierówność trójkąta, nie muszą być spełnione.
 
-Po wybraniu modelu i funkcji straty przechodzimy do optymalizacji, czyli pytania: jaki jest „najlepszy” wybór parametru $w \in W$? Najprostsza, choć niekoniecznie preferowana, odpowiedź brzmi: należy zminimalizować stratę na zbiorze danych, tzn. znaleźć
-
-$$
+Po wybraniu modelu i funkcji straty przechodzimy do optymalizacji, czyli pytania: 
+jaki jest „najlepszy” wybór parametru $w \in \mathcal{W}$? 
+Najprostsza, choć niekoniecznie preferowana, odpowiedź brzmi: 
+należy zminimalizować stratę na zbiorze danych $\mathcal{D} = \{(x_k,y_k) \}_{k \leq N}$, 
+tzn. znaleźć
+\begin{equation*}
 w^* = \arg\min_{w \in W}
 \sum_{i=1}^{N} \ell(F(x_i; w), y_i).
-$$
+\end{equation*}
 
-**Przykład 1.2** *(liniowa metoda najmniejszych kwadratów).*
-
+::: {#exm-mnk}
+Niech $w=(w_1, \ldots, w_n)$. Rozważmy model
 $$
 F(x; w) = \sum_{j=1}^{n} w_j \varphi_j(x)
 $$
-
-oraz
-
+dla pewnych funkcji bazowych $\{\varphi_j\}_{j\leq n}$. 
+Przy funkcji straty
 $$
 \ell(y_1, y_2) = |y_1 - y_2|^2
 $$
+optymalizacja sprowadza się do metody najmniejszych kwadratów.
+:::
 
-dla pewnych funkcji bazowych $\{\varphi_j\}_j$. Otrzymujemy wtedy znane ustawienie liniowej metody najmniejszych kwadratów.
+::: {#exm-nmk_pilka}
+Załóżmy, że mierzymy wysokość piłki w kolejnych chwilach czasu. Otrzymujemy dane pomiarowe:
+\begin{align*}
+\mathcal{D}  =& \{ (0,1.0), (1,3.1), (2,4.0), \\ & \:  (3,3.2), (4,1.1) \}.
+\end{align*}
+Pierwsza współrzędna oznacza czas $t$, a druga wysokość piłki $y$. 
+Wiemy, że torem lotu piłki jest parabola (to jest nasz inductive bias!).
+
+Jest to przykład polynomial fitting, czyli dopasowania wielomianu do danych. 
+Możemy zapisać ten model w postaci:
+\begin{align*}
+F(t;w)& =w_0+w_1t+w_2t^2 \\ &= \sum_{j=0}^{2} w_j \varphi_j(t),
+\end{align*}
+gdzie funkcje bazowe to:
+\begin{align*}
+ & \varphi_0(t)=1,  & \varphi_1(t)=t, \\  & \varphi_2(t)=t^2.
+\end{align*}
+Parametry $w_0,w_1,w_2$ nie są znane z góry. Model uczy się ich z danych, dobierając je tak, aby przewidywana wysokość $F(t_i;w)$ była możliwie blisko zmierzonej wysokości $y_i$.
+
+W naszym przykładzie optymalizacja względem $w = (w_1, w_2, w_3)$ sprowadza się
+do minimalizacji 
+
+\begin{equation}
+L(w)=\sum_{i=1}^{m}
+\left(w_0+w_1t_i+w_2t_i^2-y_i\right)^2.
+\end{equation}
+
+Im mniejsza wartość $L$, tym lepiej $F( \cdot, w)$ opisuje tor lotu piłki. 
+Zauważmy, że matematycznie $L$ jest wielomianem kwadratowym trzech zmiennych. 
+Dokładna optymalizacja sprowadza się do algebry liniowej. 
+
+Dane zapisujemy w macierzy cech:
+
+\begin{equation}
+\Phi=
+\begin{bmatrix}
+1 & t_1 & t_1^2\\
+1 & t_2 & t_2^2\\
+\vdots & \vdots & \vdots\\
+1 & t_m & t_m^2
+\end{bmatrix}.
+\end{equation}
+
+Wektor wag to:
+
+\begin{equation}
+w=
+\begin{bmatrix}
+w_0\\
+w_1\\
+w_2
+\end{bmatrix},
+\end{equation}
+
+a wektor obserwacji to:
+
+\begin{equation}
+y=
+\begin{bmatrix}
+y_1\\
+y_2\\
+\vdots\\
+y_m
+\end{bmatrix}.
+\end{equation}
+Predykcje danych treningowych to 
+
+\begin{equation}
+\Phi w=
+\begin{bmatrix}
+F(t_1,w)\\
+F(t_2,w)\\
+\vdots\\
+F(t_m,w)
+\end{bmatrix}.
+\end{equation}
+Mamy
+\begin{equation}
+L(w)=\|\Phi w-y\|^2.
+\end{equation}
+
+Problem polega na tym, że zwykle układ:
+
+\begin{equation}
+\Phi w = y
+\end{equation}
+
+nie ma dokładnego rozwiązania. Oznacza to, że nie istnieje taka parabola, która przechodzi idealnie przez wszystkie punkty. Szukamy więc najlepszego przybliżenia.
+
+Równania normalne mają postać:
+
+\begin{equation}
+\Phi^T\Phi w = \Phi^T y.
+\end{equation}
+
+Ich rozwiązanie daje takie wagi $w$, dla których błąd średniokwadratowy jest najmniejszy.
+
+### Skąd się one biorą?
+
+Niech reszta, czyli błąd modelu, będzie dana przez:
+
+\begin{equation}
+r = y-\Phi w.
+\end{equation}
+
+Najlepsze dopasowanie oznacza, że reszta $r$ nie powinna już zawierać informacji, którą da się wyjaśnić za pomocą kolumn macierzy $\Phi$. Innymi słowy, $r$ ma być prostopadła do każdej kolumny macierzy $\Phi$.
+
+Zapisujemy to jako:
+
+\begin{equation}
+\Phi^T r = 0.
+\end{equation}
+
+Podstawiając $r=y-\Phi w$, dostajemy:
+
+\begin{equation}
+\Phi^T(y-\Phi w)=0.
+\end{equation}
+
+Po przekształceniu:
+
+\begin{equation}
+\Phi^T y - \Phi^T\Phi w = 0.
+\end{equation}
+
+Stąd:
+
+\begin{equation}
+\Phi^T\Phi w = \Phi^T y.
+\end{equation}
+
+To są właśnie równania normalne.
+
+### Interpretacja geometryczna
+
+Wektor $y$ reprezentuje prawdziwe pomiary. Wektor $\Phi w$ reprezentuje predykcje modelu. Wszystkie możliwe predykcje $\Phi w$ tworzą pewną podprzestrzeń.
+
+Szukamy punktu $\Phi w$ w tej podprzestrzeni, który leży najbliżej $y$. Jest to rzut prostopadły wektora $y$ na przestrzeń generowaną przez kolumny macierzy $\Phi$.
+
+Dlatego błąd:
+
+\begin{equation}
+r=y-\Phi w
+\end{equation}
+
+musi być prostopadły do tej przestrzeni.
+
+### W Pythonie
+
+```{python}
+import numpy as np
+
+t = np.array([0, 1, 2, 3, 4], dtype=float)
+y = np.array([1.0, 3.1, 4.0, 3.2, 1.1], dtype=float)
+
+Phi = np.column_stack([
+    np.ones_like(t),
+    t,
+    t**2
+])
+
+A = Phi.T @ Phi
+b = Phi.T @ y
+
+w = np.linalg.solve(A, b)
+
+print(w)
+```
+
+W tym kodzie rozwiązujemy układ:
+
+\begin{equation}
+Aw=b,
+\end{equation}
+
+gdzie:
+
+\begin{equation}
+A=\Phi^T\Phi,
+\qquad
+b=\Phi^T y.
+\end{equation}
+
+Czyli zamiast iteracyjnie poprawiać wagi, dostajemy je bezpośrednio przez rozwiązanie jednego układu równań liniowych.
+
+
+konieiiii
+
+```{python}
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Dane pomiarowe
+t = np.array([0, 1, 2, 3, 4], dtype=float)
+y = np.array([1.0, 3.1, 4.0, 3.2, 1.1], dtype=float)
+
+def model(t, w0, w1, w2):
+    return w0 + w1 * t + w2 * t**2
+
+def loss(w0, w1, w2):
+    y_pred = model(t, w0, w1, w2)
+    return np.mean((y_pred - y)**2)
+```
+
+Najpierw możemy sprawdzić kilka przykładowych parabol.
+
+```{python}
+candidates = [
+    (1.0, 1.0, 0.0),
+    (1.0, 2.0, -0.3),
+    (1.0, 3.0, -0.7),
+    (0.5, 3.0, -0.7)
+]
+
+for w0, w1, w2 in candidates:
+    print(
+        f"w0={w0:4.1f}, w1={w1:4.1f}, w2={w2:5.1f}, "
+        f"L={loss(w0, w1, w2):.4f}"
+    )
+```
+
+Teraz zamiast zgadywać jedną parabolę, przeszukamy wiele możliwych wartości wag. To jest bardzo prosty sposób minimalizacji: sprawdzamy dużo kombinacji i wybieramy najlepszą.
+
+```{python}
+w0_values = np.linspace(0, 2, 41)
+w1_values = np.linspace(1, 4, 61)
+w2_values = np.linspace(-1.5, 0, 61)
+
+best_loss = np.inf
+best_weights = None
+
+for w0 in w0_values:
+    for w1 in w1_values:
+        for w2 in w2_values:
+            current_loss = loss(w0, w1, w2)
+
+            if current_loss < best_loss:
+                best_loss = current_loss
+                best_weights = (w0, w1, w2)
+
+w0_best, w1_best, w2_best = best_weights
+
+print(f"Najlepsze znalezione wagi:")
+print(f"w0 = {w0_best:.4f}")
+print(f"w1 = {w1_best:.4f}")
+print(f"w2 = {w2_best:.4f}")
+print(f"L  = {best_loss:.6f}")
+```
+
+Otrzymaliśmy więc przybliżony model:
+
+\begin{equation}
+F(t;w)=w_0+w_1t+w_2t^2.
+\end{equation}
+
+Możemy go teraz narysować razem z danymi.
+
+```{python}
+t_grid = np.linspace(0, 4, 200)
+y_grid = model(t_grid, w0_best, w1_best, w2_best)
+
+plt.scatter(t, y, label="Dane pomiarowe")
+plt.plot(t_grid, y_grid, label="Najlepsza znaleziona parabola")
+plt.xlabel("czas t")
+plt.ylabel("wysokość y")
+plt.legend()
+plt.show()
+```
+
+W tym podejściu nie używamy jeszcze gradientu. Minimalizacja polega po prostu na tym, że traktujemy $w_0,w_1,w_2$ jak trzy pokrętła. Dla wielu ustawień tych pokręteł liczymy błąd $L$, a potem wybieramy ustawienie z najmniejszym błędem.
+
+Ten sposób nie jest wydajny dla dużych modeli, ale dobrze pokazuje podstawową ideę uczenia: szukamy takich parametrów $w$, dla których model najlepiej pasuje do danych.
+
+
+
+
+Po dopasowaniu otrzymujemy parabolę, która możliwie dobrze opisuje tor lotu piłki. Ważne jest to, że model nie musi przechodzić dokładnie przez każdy punkt pomiarowy, ponieważ dane mogą być zaszumione.
+
+W tym przykładzie:
+
+- $t$ oznacza czas,
+- $y$ oznacza zmierzoną wysokość piłki,
+- $F(t;w)$ oznacza przewidywaną wysokość,
+- $w_0,w_1,w_2$ są parametrami modelu,
+- funkcje $1,t,t^2$ tworzą bazę wielomianową.
+:::
 
 „Najlepszy” parametr $w \in W$ niekoniecznie jest tym, który minimalizuje stratę na zbiorze danych. W każdym problemie optymalizacyjnym częstym problemem jest **przeuczenie** (*overfitting*). Prowadzi nas to do **regularyzacji**.
 

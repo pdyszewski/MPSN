@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="pl" xml:lang="pl"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.9.36">
+<meta name="generator" content="quarto-1.9.35">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -23,6 +23,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -41,10 +76,10 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-845c23b38eaddc0f92fda52bfe77a8c8.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-46f66b053e56abd73bb6e954d61a315b.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-9e3e5b9121e68b3f077afb32f2c64d95.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-36340e677b6b248b027830baa226fb51.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -305,37 +340,40 @@ window.Quarto = {
 <p>Uczenie nadzorowane to paradygmat uczenia maszynowego, w którym dostępne dane składają się z par wejść oraz znanych, poprawnych wyjść. Nieznane jest natomiast to, jak dokładnie działa odwzorowanie między tymi wejściami i wyjściami. Celem jest wywnioskowanie, na podstawie dostępnych danych, ogólnej struktury tego odwzorowania, w nadziei, że będzie ono uogólniać się na niewidziane wcześniej sytuacje. Formalnie problem ten możemy sformułować następująco. Szukana funkcja <span class="math inline">\(f \colon \mathcal{X} \to \mathcal{Y}\)</span> między przestrzeniami <span class="math inline">\(\mathcal{X}\)</span> oraz <span class="math inline">\(\mathcal{Y}\)</span>. Znamy wartości funkcji <span class="math inline">\(f\)</span> na pewnym podzbiorze <span class="math inline">\(\mathcal{A} \subseteq \mathcal{X}\)</span>. Matematycznie należy więc znaleźć dobre rozszerzenie funkcji <span class="math inline">\(f\)</span> z <span class="math inline">\(\mathcal{A}\)</span> do całej przestrzeni <span class="math inline">\(\mathcal{X}\)</span>.</p>
 <p>W praktyce dany mamy zbiór danych złożony z <span class="math inline">\(N\)</span> próbek:</p>
 <p><span class="math display">\[\begin{equation*}
-\mathcal{D} = \left\{(x_i, y_i)\right\}_{i=1}^{N}
-\quad \text{przy czym} \quad
-y_i = f(x_i)
-\quad \text{dla każdego } i = 1,\ldots,N.
-\end{equation*}\]</span></p>
-<p>Przestrzeń <span class="math inline">\(X\)</span> nazywana jest również <strong>przestrzenią cech</strong>, a jej elementy określa się mianem wektorów cech. Przestrzeń <span class="math inline">\(Y\)</span> nazywana jest również <strong>przestrzenią etykiet</strong>, a jej elementy określa się mianem etykiet.</p>
-<p><strong>Przykład 1.1.</strong><br>
-Niech <span class="math inline">\(X\)</span> będzie przestrzenią wszystkich obrazów kotów i psów, a <span class="math inline">\(f\)</span> klasyfikatorem, który odwzorowuje elementy tej przestrzeni w zbiór</p>
-<p><span class="math display">\[
-Y = \{\text{"dog"}, \text{"cat"}\}.
-\]</span></p>
-<p>Możemy to wyrazić numerycznie jako</p>
-<p><span class="math display">\[
-X = [0,1]^{3 \times H \times W},
-\]</span></p>
-<p>czyli obraz o wysokości <span class="math inline">\(H\)</span>, szerokości <span class="math inline">\(W\)</span> oraz trzech kanałach koloru, oraz</p>
-<p><span class="math display">\[
-Y = [0,1]^2,
-\]</span></p>
-<p>czyli jedna wartość prawdopodobieństwa dla każdej z dwóch klas.</p>
+\mathcal{D} = \left\{(x_i, y_i)\right\}_{i=1}^{N},
+\end{equation*}\]</span> przy czym <span class="math display">\[\begin{equation*}
+f(x_i)=y_i,
+\end{equation*}\]</span> dla <span class="math inline">\(i \leq N\)</span>.</p>
+<p>Przestrzeń <span class="math inline">\(\mathcal{X}\)</span> nazywana jest również <strong>przestrzenią cech</strong>, a jej elementy określa się mianem wektorów cech. Przestrzeń <span class="math inline">\(\mathcal{Y}\)</span> nazywana jest również <strong>przestrzenią etykiet</strong>, a jej elementy określa się mianem etykiet. Okazuje się, że w kontekście nauczania maszynowego zamiast uczyć komputer zwracać konkretną wartość ze zbioru etykiet <span class="math inline">\(\mathcal{Y}\)</span> wygodniej jest nauczyć go zwracać rozkład prawdopodobieństwa na <span class="math inline">\(\mathcal{Y}\)</span>. W ten sposób otrzymujemy więcej informacji, mamy kontrolę nad pewnością wyboru oraz możemy kontrolować przypadki brzegowe.</p>
+<div id="exm-klas" class="theorem example">
+<p><span class="theorem-title"><strong>Przykład 2.3</strong></span> Niech <span class="math inline">\(\mathcal{X}\)</span> będzie przestrzenią wszystkich obrazów kotów i psów. Obraz możemy zapisać jako wektor: <span class="math display">\[\begin{equation*}
+\mathcal{X} = [0,1]^{3 \times H \times W},
+\end{equation*}\]</span> gdzie <span class="math inline">\(H\)</span> to wysokość obrazu, <span class="math inline">\(W\)</span> to szerokość, a <span class="math inline">\(3\)</span> bierze się z trzech kanałów kolorów: RGB. Klasyfikator <span class="math inline">\(f\)</span> ma przypisać obraz do jednej z dwóch klas: <span class="math display">\[\begin{equation*}
+\{\text{pies}, \text{kot}\}.
+\end{equation*}\]</span> Zamiast jednak zwracać od razu etykietę <span class="math inline">\(\text{pies}\)</span> albo <span class="math inline">\(\text{kot}\)</span>, model często zwraca wektor prawdopodobieństw: <span class="math display">\[\begin{equation*}
+f(x) = (p_{\text{pies}}, p_{\text{kot}}).
+\end{equation*}\]</span> Na przykład <span class="math inline">\(f(x) = (0.87, 0.13)\)</span> oznacza, że model ocenia obraz jako psa z prawdopodobieństwem <span class="math inline">\(0.87\)</span>, a jako kota z prawdopodobieństwem <span class="math inline">\(0.13\)</span>. Decyzję końcową otrzymujemy przez wybór największego prawdopodobieństwa: <span class="math display">\[\begin{equation*}
+y = \arg\max f(x).
+\end{equation*}\]</span> W naszym przykładzie <span class="math inline">\(y = \text{pies}\)</span>. Wektor prawdopodobieństw zawiera informację o pewności modelu. Przykładowo oba wyniki prowadzą do tej samej etykiety: <span class="math display">\[\begin{equation*}
+(0.51, 0.49) \mapsto \text{pies},
+\end{equation*}\]</span> oraz <span class="math display">\[\begin{equation*}
+(0.99, 0.01) \mapsto \text{pies}.
+\end{equation*}\]</span> Pierwszy przypadek oznacza, że model jest prawie niezdecydowany, a drugi, że jest bardzo pewny swojej decyzji.</p>
+<p>Ta informacja jest przydatna, ponieważ można ustalić próg akceptacji decyzji. Na przykład jeżeli <span class="math display">\[\begin{equation*}
+\max \{ p_{\text{pies}}, p_{\text{kot}} \} &lt; 0.8
+\end{equation*}\]</span> to model nie klasyfikuje automatycznie. Wtedy wynik <span class="math inline">\((0.51,0.49)\)</span> można potraktować jako „nie wiem”, a wynik: <span class="math inline">\((0.99,0.01)\)</span> jako pewną klasyfikację.</p>
+</div>
 <p>Ogólne podejście do rozwiązania tego problemu składa się z trzech głównych kroków.</p>
 <ol type="1">
 <li><p>Wybieramy model<br>
 <span class="math display">\[
-F : X \times W \to Y
-\]</span> parametryzowany przez parametr z przestrzeni <span class="math inline">\(W\)</span>. Litera <span class="math inline">\(W\)</span> pochodzi od angielskiego słowa <em>weights</em>, ponieważ tak często określa się parametry w sieciach neuronowych.</p></li>
+F : \mathcal{X} \times \mathcal{W} \to \mathcal{Y}
+\]</span> parametryzowany przez parametr z przestrzeni <span class="math inline">\(\mathcal{W}\)</span>. Litera <span class="math inline">\(\mathcal{W}\)</span> pochodzi od angielskiego słowa <em>weights</em>, ponieważ tak często określa się parametry w sieciach neuronowych.</p></li>
 <li><p>Musimy określić ilościowo jakość wyjścia modelu, dlatego wybieramy <strong>funkcję straty</strong> <span class="math display">\[
-\ell : Y \times Y \to \mathbb{R},
-\]</span> gdzie <span class="math inline">\(\ell(y_1, y_2)\)</span> określa, „jak różne” są <span class="math inline">\(y_1\)</span> oraz <span class="math inline">\(y_2\)</span>.</p></li>
-<li><p>Na podstawie zbioru danych oraz funkcji straty wybieramy <span class="math inline">\(w \in W\)</span> tak, aby <span class="math display">\[
-F(\cdot; w)
+\ell : \mathcal{Y} \times \mathcal{Y} \to \mathbb{R},
+\]</span> gdzie <span class="math inline">\(\ell(y_1, y_2)\)</span> określa, jak różne są <span class="math inline">\(y_1\)</span> oraz <span class="math inline">\(y_2\)</span>.</p></li>
+<li><p>Na podstawie zbioru danych <span class="math inline">\(\mathcal{D}\)</span> oraz funkcji straty wybieramy <span class="math inline">\(w \in W\)</span> tak, aby <span class="math display">\[
+F(\cdot, w)
 \]</span> było możliwie najlepszym przybliżeniem funkcji docelowej <span class="math inline">\(f\)</span>.</p></li>
 </ol>
 <p>To wysokopoziomowe podejście pozostawia jednak kilka otwartych pytań.</p>
@@ -344,36 +382,268 @@ F(\cdot; w)
 <li>Jak wybrać funkcję straty?</li>
 <li>Jak przeprowadzić optymalizację?</li>
 </ul>
-<p>Na żadne z tych pytań nie ma kanonicznych odpowiedzi. W dużej mierze rozwiązuje się je metodą prób i błędów oraz za pomocą heurystyk, ponieważ musimy podjąć pewne decyzje, zanim będziemy mogli zrobić jakikolwiek postęp. Niezależnie od tego wybory te mają duży wpływ na końcowy wynik, mimo że nie są bezpośrednio uzasadnione przez dostępne dane ani przez jakieś podstawowe zasady. Zbiorczy zestaw założeń, które przyjmujemy, aby móc zająć się problemem, nazywa się w uczeniu maszynowym <strong>biasem indukcyjnym</strong> (<em>inductive bias</em>).</p>
-<p>Na potrzeby tego kursu jako modele wybierzemy oczywiście sieci neuronowe; omówimy je dokładniej później. Drugą rzeczą, którą musimy zrobić, jest wybór funkcji straty. <strong>Funkcja straty</strong> to funkcja</p>
-<p><span class="math display">\[
-\ell : Y \times Y \to \mathbb{R},
-\]</span></p>
-<p>która działa podobnie do metryki, ale jest mniej restrykcyjna.</p>
+<p>Na żadne z tych pytań nie ma kanonicznych odpowiedzi. W dużej mierze rozwiązuje się je metodą prób i błędów oraz za pomocą heurystyk. Niezależnie od tego wybory te mają duży wpływ na końcowy wynik, mimo że nie są bezpośrednio uzasadnione przez dostępne dane ani przez jakieś podstawowe zasady. Zbiorczy zestaw założeń, które przyjmujemy, aby móc zająć się problemem, nazywa się w uczeniu maszynowym <strong>biasem indukcyjnym</strong> (<em>inductive bias</em>).</p>
+<p>Na potrzeby tego kursu jako modele wybierzemy oczywiście sieci neuronowe; omówimy je dokładniej później. Drugą rzeczą, którą musimy zrobić, jest wybór funkcji straty. Funkcja straty działa podobnie do metryki, ale jest mniej restrykcyjna.</p>
 <ul>
-<li><p>Zwykle, choć nie zawsze, mamy <span class="math display">\[
-\ell : Y \times Y \to \mathbb{R}^{+}.
-\]</span></p></li>
+<li><p>Zwykle (choć nie zawsze) mamy <span class="math inline">\(\ell(y)\geq 0\)</span> dla każdego <span class="math inline">\(y \in \mathcal{Y}\)</span>.</p></li>
 <li><p>Ponieważ chcemy minimalizować stratę, minimum powinno istnieć, tak aby wyrażenie <span class="math display">\[
 \min_{y \in Y} \ell(y_0, y)
-\]</span> było dobrze określone.</p></li>
-<li><p>Funkcja powinna być różniczkowalna, przynajmniej prawie wszędzie, ponieważ chcemy stosować spadek gradientowy.</p></li>
-<li><p>Własności metryczne, takie jak identyczność nierozróżnialnych, symetria czy nierówność trójkąta, nie muszą być spełnione.</p></li>
+\]</span> było dobrze określone dla każdego <span class="math inline">\(y_0 \in \mathcal{Y}\)</span>.</p></li>
+<li><p>Funkcja powinna być różniczkowalna, ponieważ chcemy stosować metody gradientowe.</p></li>
+<li><p>Własności metryki, takie jak symetria czy nierówność trójkąta, nie muszą być spełnione.</p></li>
 </ul>
-<p>Po wybraniu modelu i funkcji straty przechodzimy do optymalizacji, czyli pytania: jaki jest „najlepszy” wybór parametru <span class="math inline">\(w \in W\)</span>? Najprostsza, choć niekoniecznie preferowana, odpowiedź brzmi: należy zminimalizować stratę na zbiorze danych, tzn. znaleźć</p>
-<p><span class="math display">\[
+<p>Po wybraniu modelu i funkcji straty przechodzimy do optymalizacji, czyli pytania: jaki jest „najlepszy” wybór parametru <span class="math inline">\(w \in \mathcal{W}\)</span>? Najprostsza, choć niekoniecznie preferowana, odpowiedź brzmi: należy zminimalizować stratę na zbiorze danych <span class="math inline">\(\mathcal{D} = \{(x_k,y_k) \}_{k \leq N}\)</span>, tzn. znaleźć <span class="math display">\[\begin{equation*}
 w^* = \arg\min_{w \in W}
 \sum_{i=1}^{N} \ell(F(x_i; w), y_i).
-\]</span></p>
-<p><strong>Przykład 1.2</strong> <em>(liniowa metoda najmniejszych kwadratów).</em></p>
-<p><span class="math display">\[
+\end{equation*}\]</span></p>
+<div id="exm-mnk" class="theorem example">
+<p><span class="theorem-title"><strong>Przykład 2.4</strong></span> Niech <span class="math inline">\(w=(w_1, \ldots, w_n)\)</span>. Rozważmy model <span class="math display">\[
 F(x; w) = \sum_{j=1}^{n} w_j \varphi_j(x)
-\]</span></p>
-<p>oraz</p>
-<p><span class="math display">\[
+\]</span> dla pewnych funkcji bazowych <span class="math inline">\(\{\varphi_j\}_{j\leq n}\)</span>. Przy funkcji straty <span class="math display">\[
 \ell(y_1, y_2) = |y_1 - y_2|^2
-\]</span></p>
-<p>dla pewnych funkcji bazowych <span class="math inline">\(\{\varphi_j\}_j\)</span>. Otrzymujemy wtedy znane ustawienie liniowej metody najmniejszych kwadratów.</p>
+\]</span> optymalizacja sprowadza się do metody najmniejszych kwadratów.</p>
+</div>
+<div id="exm-nmk_pilka" class="theorem example">
+<p><span class="theorem-title"><strong>Przykład 2.5</strong></span> Załóżmy, że mierzymy wysokość piłki w kolejnych chwilach czasu. Otrzymujemy dane pomiarowe: <span class="math display">\[\begin{align*}
+\mathcal{D}  =&amp; \{ (0,1.0), (1,3.1), (2,4.0), \\ &amp; \:  (3,3.2), (4,1.1) \}.
+\end{align*}\]</span> Pierwsza współrzędna oznacza czas <span class="math inline">\(t\)</span>, a druga wysokość piłki <span class="math inline">\(y\)</span>. Wiemy, że torem lotu piłki jest parabola (to jest nasz inductive bias!).</p>
+<p>Jest to przykład polynomial fitting, czyli dopasowania wielomianu do danych. Możemy zapisać ten model w postaci: <span class="math display">\[\begin{align*}
+F(t;w)&amp; =w_0+w_1t+w_2t^2 \\ &amp;= \sum_{j=0}^{2} w_j \varphi_j(t),
+\end{align*}\]</span> gdzie funkcje bazowe to: <span class="math display">\[\begin{align*}
+&amp; \varphi_0(t)=1,  &amp; \varphi_1(t)=t, \\  &amp; \varphi_2(t)=t^2.
+\end{align*}\]</span> Parametry <span class="math inline">\(w_0,w_1,w_2\)</span> nie są znane z góry. Model uczy się ich z danych, dobierając je tak, aby przewidywana wysokość <span class="math inline">\(F(t_i;w)\)</span> była możliwie blisko zmierzonej wysokości <span class="math inline">\(y_i\)</span>.</p>
+<p>W naszym przykładzie optymalizacja względem <span class="math inline">\(w = (w_1, w_2, w_3)\)</span> sprowadza się do minimalizacji</p>
+<p><span class="math display">\[\begin{equation}
+L(w)=\sum_{i=1}^{m}
+\left(w_0+w_1t_i+w_2t_i^2-y_i\right)^2.
+\end{equation}\]</span></p>
+<p>Im mniejsza wartość <span class="math inline">\(L\)</span>, tym lepiej <span class="math inline">\(F( \cdot, w)\)</span> opisuje tor lotu piłki. Zauważmy, że matematycznie <span class="math inline">\(L\)</span> jest wielomianem kwadratowym trzech zmiennych. Dokładna optymalizacja sprowadza się do algebry liniowej.</p>
+<p>Dane zapisujemy w macierzy cech:</p>
+<p><span class="math display">\[\begin{equation}
+\Phi=
+\begin{bmatrix}
+1 &amp; t_1 &amp; t_1^2\\
+1 &amp; t_2 &amp; t_2^2\\
+\vdots &amp; \vdots &amp; \vdots\\
+1 &amp; t_m &amp; t_m^2
+\end{bmatrix}.
+\end{equation}\]</span></p>
+<p>Wektor wag to:</p>
+<p><span class="math display">\[\begin{equation}
+w=
+\begin{bmatrix}
+w_0\\
+w_1\\
+w_2
+\end{bmatrix},
+\end{equation}\]</span></p>
+<p>a wektor obserwacji to:</p>
+<p><span class="math display">\[\begin{equation}
+y=
+\begin{bmatrix}
+y_1\\
+y_2\\
+\vdots\\
+y_m
+\end{bmatrix}.
+\end{equation}\]</span> Predykcje danych treningowych to</p>
+<p><span class="math display">\[\begin{equation}
+\Phi w=
+\begin{bmatrix}
+F(t_1,w)\\
+F(t_2,w)\\
+\vdots\\
+F(t_m,w)
+\end{bmatrix}.
+\end{equation}\]</span> Mamy <span class="math display">\[\begin{equation}
+L(w)=\|\Phi w-y\|^2.
+\end{equation}\]</span></p>
+<p>Problem polega na tym, że zwykle układ:</p>
+<p><span class="math display">\[\begin{equation}
+\Phi w = y
+\end{equation}\]</span></p>
+<p>nie ma dokładnego rozwiązania. Oznacza to, że nie istnieje taka parabola, która przechodzi idealnie przez wszystkie punkty. Szukamy więc najlepszego przybliżenia.</p>
+<p>Równania normalne mają postać:</p>
+<p><span class="math display">\[\begin{equation}
+\Phi^T\Phi w = \Phi^T y.
+\end{equation}\]</span></p>
+<p>Ich rozwiązanie daje takie wagi <span class="math inline">\(w\)</span>, dla których błąd średniokwadratowy jest najmniejszy.</p>
+<section id="skąd-się-one-biorą" class="level3" data-number="2.2.1">
+<h3 data-number="2.2.1" class="anchored" data-anchor-id="skąd-się-one-biorą"><span class="header-section-number">2.2.1</span> Skąd się one biorą?</h3>
+<p>Niech reszta, czyli błąd modelu, będzie dana przez:</p>
+<p><span class="math display">\[\begin{equation}
+r = y-\Phi w.
+\end{equation}\]</span></p>
+<p>Najlepsze dopasowanie oznacza, że reszta <span class="math inline">\(r\)</span> nie powinna już zawierać informacji, którą da się wyjaśnić za pomocą kolumn macierzy <span class="math inline">\(\Phi\)</span>. Innymi słowy, <span class="math inline">\(r\)</span> ma być prostopadła do każdej kolumny macierzy <span class="math inline">\(\Phi\)</span>.</p>
+<p>Zapisujemy to jako:</p>
+<p><span class="math display">\[\begin{equation}
+\Phi^T r = 0.
+\end{equation}\]</span></p>
+<p>Podstawiając <span class="math inline">\(r=y-\Phi w\)</span>, dostajemy:</p>
+<p><span class="math display">\[\begin{equation}
+\Phi^T(y-\Phi w)=0.
+\end{equation}\]</span></p>
+<p>Po przekształceniu:</p>
+<p><span class="math display">\[\begin{equation}
+\Phi^T y - \Phi^T\Phi w = 0.
+\end{equation}\]</span></p>
+<p>Stąd:</p>
+<p><span class="math display">\[\begin{equation}
+\Phi^T\Phi w = \Phi^T y.
+\end{equation}\]</span></p>
+<p>To są właśnie równania normalne.</p>
+</section>
+<section id="interpretacja-geometryczna" class="level3" data-number="2.2.2">
+<h3 data-number="2.2.2" class="anchored" data-anchor-id="interpretacja-geometryczna"><span class="header-section-number">2.2.2</span> Interpretacja geometryczna</h3>
+<p>Wektor <span class="math inline">\(y\)</span> reprezentuje prawdziwe pomiary. Wektor <span class="math inline">\(\Phi w\)</span> reprezentuje predykcje modelu. Wszystkie możliwe predykcje <span class="math inline">\(\Phi w\)</span> tworzą pewną podprzestrzeń.</p>
+<p>Szukamy punktu <span class="math inline">\(\Phi w\)</span> w tej podprzestrzeni, który leży najbliżej <span class="math inline">\(y\)</span>. Jest to rzut prostopadły wektora <span class="math inline">\(y\)</span> na przestrzeń generowaną przez kolumny macierzy <span class="math inline">\(\Phi\)</span>.</p>
+<p>Dlatego błąd:</p>
+<p><span class="math display">\[\begin{equation}
+r=y-\Phi w
+\end{equation}\]</span></p>
+<p>musi być prostopadły do tej przestrzeni.</p>
+</section>
+<section id="w-pythonie" class="level3" data-number="2.2.3">
+<h3 data-number="2.2.3" class="anchored" data-anchor-id="w-pythonie"><span class="header-section-number">2.2.3</span> W Pythonie</h3>
+<div id="667422fe" class="cell" data-execution_count="1">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>t <span class="op">=</span> np.array([<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>], dtype<span class="op">=</span><span class="bu">float</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> np.array([<span class="fl">1.0</span>, <span class="fl">3.1</span>, <span class="fl">4.0</span>, <span class="fl">3.2</span>, <span class="fl">1.1</span>], dtype<span class="op">=</span><span class="bu">float</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>Phi <span class="op">=</span> np.column_stack([</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    np.ones_like(t),</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    t,</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    t<span class="op">**</span><span class="dv">2</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>])</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> Phi.T <span class="op">@</span> Phi</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> Phi.T <span class="op">@</span> y</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>w <span class="op">=</span> np.linalg.solve(A, b)</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(w)</span></code></pre></div><button title="Kopiuj do schowka" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[ 0.97714286  2.91571429 -0.72142857]</code></pre>
+</div>
+</div>
+<p>W tym kodzie rozwiązujemy układ:</p>
+<p><span class="math display">\[\begin{equation}
+Aw=b,
+\end{equation}\]</span></p>
+<p>gdzie:</p>
+<p><span class="math display">\[\begin{equation}
+A=\Phi^T\Phi,
+\qquad
+b=\Phi^T y.
+\end{equation}\]</span></p>
+<p>Czyli zamiast iteracyjnie poprawiać wagi, dostajemy je bezpośrednio przez rozwiązanie jednego układu równań liniowych.</p>
+<p>konieiiii</p>
+<div id="151a67e2" class="cell" data-execution_count="2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Dane pomiarowe</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>t <span class="op">=</span> np.array([<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>], dtype<span class="op">=</span><span class="bu">float</span>)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> np.array([<span class="fl">1.0</span>, <span class="fl">3.1</span>, <span class="fl">4.0</span>, <span class="fl">3.2</span>, <span class="fl">1.1</span>], dtype<span class="op">=</span><span class="bu">float</span>)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> model(t, w0, w1, w2):</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> w0 <span class="op">+</span> w1 <span class="op">*</span> t <span class="op">+</span> w2 <span class="op">*</span> t<span class="op">**</span><span class="dv">2</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> loss(w0, w1, w2):</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    y_pred <span class="op">=</span> model(t, w0, w1, w2)</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.mean((y_pred <span class="op">-</span> y)<span class="op">**</span><span class="dv">2</span>)</span></code></pre></div><button title="Kopiuj do schowka" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Najpierw możemy sprawdzić kilka przykładowych parabol.</p>
+<div id="ff2def2c" class="cell" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>candidates <span class="op">=</span> [</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    (<span class="fl">1.0</span>, <span class="fl">1.0</span>, <span class="fl">0.0</span>),</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    (<span class="fl">1.0</span>, <span class="fl">2.0</span>, <span class="op">-</span><span class="fl">0.3</span>),</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    (<span class="fl">1.0</span>, <span class="fl">3.0</span>, <span class="op">-</span><span class="fl">0.7</span>),</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    (<span class="fl">0.5</span>, <span class="fl">3.0</span>, <span class="op">-</span><span class="fl">0.7</span>)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> w0, w1, w2 <span class="kw">in</span> candidates:</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>        <span class="ss">f"w0=</span><span class="sc">{</span>w0<span class="sc">:4.1f}</span><span class="ss">, w1=</span><span class="sc">{</span>w1<span class="sc">:4.1f}</span><span class="ss">, w2=</span><span class="sc">{</span>w2<span class="sc">:5.1f}</span><span class="ss">, "</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>        <span class="ss">f"L=</span><span class="sc">{</span>loss(w0, w1, w2)<span class="sc">:.4f}</span><span class="ss">"</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    )</span></code></pre></div><button title="Kopiuj do schowka" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>w0= 1.0, w1= 1.0, w2=  0.0, L=3.6120
+w0= 1.0, w1= 2.0, w2= -0.3, L=2.2040
+w0= 1.0, w1= 3.0, w2= -0.7, L=0.1640
+w0= 0.5, w1= 3.0, w2= -0.7, L=0.0940</code></pre>
+</div>
+</div>
+<p>Teraz zamiast zgadywać jedną parabolę, przeszukamy wiele możliwych wartości wag. To jest bardzo prosty sposób minimalizacji: sprawdzamy dużo kombinacji i wybieramy najlepszą.</p>
+<div id="cef74063" class="cell" data-execution_count="4">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>w0_values <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">2</span>, <span class="dv">41</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>w1_values <span class="op">=</span> np.linspace(<span class="dv">1</span>, <span class="dv">4</span>, <span class="dv">61</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>w2_values <span class="op">=</span> np.linspace(<span class="op">-</span><span class="fl">1.5</span>, <span class="dv">0</span>, <span class="dv">61</span>)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>best_loss <span class="op">=</span> np.inf</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>best_weights <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> w0 <span class="kw">in</span> w0_values:</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> w1 <span class="kw">in</span> w1_values:</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> w2 <span class="kw">in</span> w2_values:</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>            current_loss <span class="op">=</span> loss(w0, w1, w2)</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> current_loss <span class="op">&lt;</span> best_loss:</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>                best_loss <span class="op">=</span> current_loss</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>                best_weights <span class="op">=</span> (w0, w1, w2)</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>w0_best, w1_best, w2_best <span class="op">=</span> best_weights</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Najlepsze znalezione wagi:"</span>)</span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"w0 = </span><span class="sc">{</span>w0_best<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"w1 = </span><span class="sc">{</span>w1_best<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"w2 = </span><span class="sc">{</span>w2_best<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"L  = </span><span class="sc">{</span>best_loss<span class="sc">:.6f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Kopiuj do schowka" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Najlepsze znalezione wagi:
+w0 = 0.9500
+w1 = 2.9500
+w2 = -0.7250
+L  = 0.003750</code></pre>
+</div>
+</div>
+<p>Otrzymaliśmy więc przybliżony model:</p>
+<p><span class="math display">\[\begin{equation}
+F(t;w)=w_0+w_1t+w_2t^2.
+\end{equation}\]</span></p>
+<p>Możemy go teraz narysować razem z danymi.</p>
+<div id="0be39c93" class="cell" data-execution_count="5">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>t_grid <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">4</span>, <span class="dv">200</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>y_grid <span class="op">=</span> model(t_grid, w0_best, w1_best, w2_best)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>plt.scatter(t, y, label<span class="op">=</span><span class="st">"Dane pomiarowe"</span>)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>plt.plot(t_grid, y_grid, label<span class="op">=</span><span class="st">"Najlepsza znaleziona parabola"</span>)</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"czas t"</span>)</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"wysokość y"</span>)</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Kopiuj do schowka" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="01_Supervised_Learning_files/figure-html/cell-6-output-1.png" width="590" height="429" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>W tym podejściu nie używamy jeszcze gradientu. Minimalizacja polega po prostu na tym, że traktujemy <span class="math inline">\(w_0,w_1,w_2\)</span> jak trzy pokrętła. Dla wielu ustawień tych pokręteł liczymy błąd <span class="math inline">\(L\)</span>, a potem wybieramy ustawienie z najmniejszym błędem.</p>
+<p>Ten sposób nie jest wydajny dla dużych modeli, ale dobrze pokazuje podstawową ideę uczenia: szukamy takich parametrów <span class="math inline">\(w\)</span>, dla których model najlepiej pasuje do danych.</p>
+<p>Po dopasowaniu otrzymujemy parabolę, która możliwie dobrze opisuje tor lotu piłki. Ważne jest to, że model nie musi przechodzić dokładnie przez każdy punkt pomiarowy, ponieważ dane mogą być zaszumione.</p>
+<p>W tym przykładzie:</p>
+<ul>
+<li><span class="math inline">\(t\)</span> oznacza czas,</li>
+<li><span class="math inline">\(y\)</span> oznacza zmierzoną wysokość piłki,</li>
+<li><span class="math inline">\(F(t;w)\)</span> oznacza przewidywaną wysokość,</li>
+<li><span class="math inline">\(w_0,w_1,w_2\)</span> są parametrami modelu,</li>
+<li>funkcje <span class="math inline">\(1,t,t^2\)</span> tworzą bazę wielomianową.</li>
+</ul>
+</section>
+</div>
 <p>„Najlepszy” parametr <span class="math inline">\(w \in W\)</span> niekoniecznie jest tym, który minimalizuje stratę na zbiorze danych. W każdym problemie optymalizacyjnym częstym problemem jest <strong>przeuczenie</strong> (<em>overfitting</em>). Prowadzi nas to do <strong>regularyzacji</strong>.</p>
 <p>Techniki regularyzacji dla sieci neuronowych omówimy szerzej później. Na razie wspomnimy tylko, że <strong>regularyzacja parametrów</strong> jest powszechną techniką znaną z regresji, często stosowaną również w sieciach neuronowych. Ten typ regularyzacji polega na dodaniu do straty na danych składnika karzącego, który zniechęca parametry do przyjmowania niepożądanych wartości, na przykład zbyt dużych. Zmodyfikowany problem optymalizacyjny ma postać</p>
 <p><span class="math display">\[

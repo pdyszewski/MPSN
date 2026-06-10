@@ -7,7 +7,14 @@ rosnącej mocy obliczeniowej możliwe stało się rozwiązywanie zadań,
 które wcześniej były bardzo trudne, takich jak rozpoznawanie obrazów, 
 przetwarzanie języka naturalnego, rozpoznawanie mowy czy analiza złożonych danych.
 
-Sieci neuronowe są dziś jednym z podstawowych narzędzi sztucznej inteligencji. 
+Uczenie maszynowe to nauka programowania komputerów w taki sposób, aby mogły 
+uczyć się na podstawie danych. Oto nieco bardziej ogólna definicja:
+
+> Uczenie maszynowe to dziedzina badań, która daje komputerom zdolność uczenia się bez bycia jawnie zaprogramowanymi.
+>
+> — @samuel1959some
+
+Sieci neuronowe są dziś jednym z podstawowych narzędzi uczenia maszynowego. 
 Wykorzystuje się je zarówno w widocznych zastosowaniach, takich jak duże modele językowe i 
 generatory obrazów, jak i w systemach działających w tle: 
 wyszukiwarkach, systemach rekomendacyjnych, analizie obrazów medycznych, 

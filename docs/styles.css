@@ -64,3 +64,15 @@ p {
 
   font-weight: 600;
 }
+
+
+.cell-output-display {
+  overflow-x: visible !important;
+}
+
+.cell-output-display img,
+.quarto-figure img,
+figure img {
+  max-width: 100% !important;
+  height: auto !important;
+}

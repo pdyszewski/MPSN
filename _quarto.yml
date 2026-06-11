@@ -35,6 +35,11 @@ bibliography: references.bib
 
 format:
   html:
+    fig-responsive: true
+    code-fold: true
+    code-summary: "Pokaż kod"
+    code-copy: true
+    code-overflow: wrap
     css: styles.css
     theme:
       - cosmo

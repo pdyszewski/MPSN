@@ -273,63 +273,46 @@ Mamy
 L(w)=\|\Phi w-y\|^2.
 \end{equation}
 
-Problem polega na tym, że zwykle układ:
+Warunek minimum to:
 
 \begin{equation}
-\Phi w = y
+\frac{\partial L}{\partial w_0}=0,
+\qquad
+\frac{\partial L}{\partial w_1}=0,
+\qquad
+\frac{\partial L}{\partial w_2}=0.
 \end{equation}
 
-nie ma dokładnego rozwiązania. Oznacza to, że nie istnieje taka parabola, która przechodzi idealnie przez wszystkie punkty. Szukamy więc najlepszego przybliżenia.
-
-Równania normalne mają postać:
+Czyli:
 
 \begin{equation}
-\Phi^T\Phi w = \Phi^T y.
+\sum_{i=1}^{m}
+\left(w_0+w_1t_i+w_2t_i^2-y_i\right)=0,
 \end{equation}
-
-Ich rozwiązanie daje takie wagi $w$, dla których błąd średniokwadratowy jest najmniejszy.
-
-### Skąd się one biorą?
-
-Niech reszta, czyli błąd modelu, będzie dana przez:
 
 \begin{equation}
-r = y-\Phi w.
+\sum_{i=1}^{m}
+t_i\left(w_0+w_1t_i+w_2t_i^2-y_i\right)=0,
 \end{equation}
-
-Najlepsze dopasowanie oznacza, że reszta $r$ nie powinna już zawierać informacji, którą da się wyjaśnić za pomocą kolumn macierzy $\Phi$. Innymi słowy, $r$ ma być prostopadła do każdej kolumny macierzy $\Phi$.
-
-Zapisujemy to jako:
 
 \begin{equation}
-\Phi^T r = 0.
+\sum_{i=1}^{m}
+t_i^2\left(w_0+w_1t_i+w_2t_i^2-y_i\right)=0.
 \end{equation}
 
-Podstawiając $r=y-\Phi w$, dostajemy:
+To są właśnie równania normalne dla modelu z bazą $1,t,t^2$.
+
+W zapisie macierzowym te trzy równania można zapisać krótko jako:
 
 \begin{equation}
-\Phi^T(y-\Phi w)=0.
+\Phi^T(\Phi w-y)=0.
 \end{equation}
 
-Po przekształceniu:
-
-\begin{equation}
-\Phi^T y - \Phi^T\Phi w = 0.
-\end{equation}
-
-Stąd:
-
-\begin{equation}
-\Phi^T\Phi w = \Phi^T y.
-\end{equation}
-
-To są właśnie równania normalne.
-
-### Interpretacja geometryczna
 
 Wektor $y$ reprezentuje prawdziwe pomiary. Wektor $\Phi w$ reprezentuje predykcje modelu. Wszystkie możliwe predykcje $\Phi w$ tworzą pewną podprzestrzeń.
 
-Szukamy punktu $\Phi w$ w tej podprzestrzeni, który leży najbliżej $y$. Jest to rzut prostopadły wektora $y$ na przestrzeń generowaną przez kolumny macierzy $\Phi$.
+Szukamy punktu $\Phi w$ w tej podprzestrzeni, który leży najbliżej $y$. 
+Jest to rzut prostopadły wektora $y$ na przestrzeń generowaną przez kolumny macierzy $\Phi$.
 
 Dlatego błąd:
 
@@ -339,7 +322,6 @@ r=y-\Phi w
 
 musi być prostopadły do tej przestrzeni.
 
-### W Pythonie
 
 ```{python}
 import numpy as np
@@ -378,68 +360,11 @@ b=\Phi^T y.
 Czyli zamiast iteracyjnie poprawiać wagi, dostajemy je bezpośrednio przez rozwiązanie jednego układu równań liniowych.
 
 
-konieiiii
-
 ```{python}
-import numpy as np
-import matplotlib.pyplot as plt
-
-# Dane pomiarowe
-t = np.array([0, 1, 2, 3, 4], dtype=float)
-y = np.array([1.0, 3.1, 4.0, 3.2, 1.1], dtype=float)
-
-def model(t, w0, w1, w2):
-    return w0 + w1 * t + w2 * t**2
-
-def loss(w0, w1, w2):
-    y_pred = model(t, w0, w1, w2)
-    return np.mean((y_pred - y)**2)
+def model(t, w):
+    return w[0] + w[1] * t + w[2] * t**2
 ```
 
-Najpierw możemy sprawdzić kilka przykładowych parabol.
-
-```{python}
-candidates = [
-    (1.0, 1.0, 0.0),
-    (1.0, 2.0, -0.3),
-    (1.0, 3.0, -0.7),
-    (0.5, 3.0, -0.7)
-]
-
-for w0, w1, w2 in candidates:
-    print(
-        f"w0={w0:4.1f}, w1={w1:4.1f}, w2={w2:5.1f}, "
-        f"L={loss(w0, w1, w2):.4f}"
-    )
-```
-
-Teraz zamiast zgadywać jedną parabolę, przeszukamy wiele możliwych wartości wag. To jest bardzo prosty sposób minimalizacji: sprawdzamy dużo kombinacji i wybieramy najlepszą.
-
-```{python}
-w0_values = np.linspace(0, 2, 41)
-w1_values = np.linspace(1, 4, 61)
-w2_values = np.linspace(-1.5, 0, 61)
-
-best_loss = np.inf
-best_weights = None
-
-for w0 in w0_values:
-    for w1 in w1_values:
-        for w2 in w2_values:
-            current_loss = loss(w0, w1, w2)
-
-            if current_loss < best_loss:
-                best_loss = current_loss
-                best_weights = (w0, w1, w2)
-
-w0_best, w1_best, w2_best = best_weights
-
-print(f"Najlepsze znalezione wagi:")
-print(f"w0 = {w0_best:.4f}")
-print(f"w1 = {w1_best:.4f}")
-print(f"w2 = {w2_best:.4f}")
-print(f"L  = {best_loss:.6f}")
-```
 
 Otrzymaliśmy więc przybliżony model:
 
@@ -450,17 +375,27 @@ F(t;w)=w_0+w_1t+w_2t^2.
 Możemy go teraz narysować razem z danymi.
 
 ```{python}
-t_grid = np.linspace(0, 4, 200)
-y_grid = model(t_grid, w0_best, w1_best, w2_best)
+#| fig-width: 7
+#| fig-height: 4
+#| out-width: "100%"
+#| fig-align: center
 
-plt.scatter(t, y, label="Dane pomiarowe")
-plt.plot(t_grid, y_grid, label="Najlepsza znaleziona parabola")
-plt.xlabel("czas t")
-plt.ylabel("wysokość y")
-plt.legend()
+import matplotlib.pyplot as plt
+
+t_grid = np.linspace(0, 4, 200)
+y_grid = model(t_grid, w)
+
+fig, ax = plt.subplots(figsize=(7, 4), constrained_layout=True)
+
+ax.scatter(t, y, label="Dane pomiarowe")
+ax.plot(t_grid, y_grid, label="Najlepsza znaleziona parabola")
+
+ax.set_xlabel("czas $t$")
+ax.set_ylabel("wysokość $y$")
+ax.legend()
+
 plt.show()
 ```
-
 W tym podejściu nie używamy jeszcze gradientu. Minimalizacja polega po prostu na tym, że traktujemy $w_0,w_1,w_2$ jak trzy pokrętła. Dla wielu ustawień tych pokręteł liczymy błąd $L$, a potem wybieramy ustawienie z najmniejszym błędem.
 
 Ten sposób nie jest wydajny dla dużych modeli, ale dobrze pokazuje podstawową ideę uczenia: szukamy takich parametrów $w$, dla których model najlepiej pasuje do danych.

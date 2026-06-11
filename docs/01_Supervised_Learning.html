@@ -79,7 +79,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-46f66b053e56abd73bb6e954d61a315b.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-36340e677b6b248b027830baa226fb51.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-c6d3c825ae0189ae3887d3bab07f6998.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -458,43 +458,32 @@ F(t_m,w)
 \end{equation}\]</span> Mamy <span class="math display">\[\begin{equation}
 L(w)=\|\Phi w-y\|^2.
 \end{equation}\]</span></p>
-<p>Problem polega na tym, że zwykle układ:</p>
+<p>Warunek minimum to:</p>
 <p><span class="math display">\[\begin{equation}
-\Phi w = y
+\frac{\partial L}{\partial w_0}=0,
+\qquad
+\frac{\partial L}{\partial w_1}=0,
+\qquad
+\frac{\partial L}{\partial w_2}=0.
 \end{equation}\]</span></p>
-<p>nie ma dokładnego rozwiązania. Oznacza to, że nie istnieje taka parabola, która przechodzi idealnie przez wszystkie punkty. Szukamy więc najlepszego przybliżenia.</p>
-<p>Równania normalne mają postać:</p>
+<p>Czyli:</p>
 <p><span class="math display">\[\begin{equation}
-\Phi^T\Phi w = \Phi^T y.
+\sum_{i=1}^{m}
+\left(w_0+w_1t_i+w_2t_i^2-y_i\right)=0,
 \end{equation}\]</span></p>
-<p>Ich rozwiązanie daje takie wagi <span class="math inline">\(w\)</span>, dla których błąd średniokwadratowy jest najmniejszy.</p>
-<section id="skąd-się-one-biorą" class="level3" data-number="2.2.1">
-<h3 data-number="2.2.1" class="anchored" data-anchor-id="skąd-się-one-biorą"><span class="header-section-number">2.2.1</span> Skąd się one biorą?</h3>
-<p>Niech reszta, czyli błąd modelu, będzie dana przez:</p>
 <p><span class="math display">\[\begin{equation}
-r = y-\Phi w.
+\sum_{i=1}^{m}
+t_i\left(w_0+w_1t_i+w_2t_i^2-y_i\right)=0,
 \end{equation}\]</span></p>
-<p>Najlepsze dopasowanie oznacza, że reszta <span class="math inline">\(r\)</span> nie powinna już zawierać informacji, którą da się wyjaśnić za pomocą kolumn macierzy <span class="math inline">\(\Phi\)</span>. Innymi słowy, <span class="math inline">\(r\)</span> ma być prostopadła do każdej kolumny macierzy <span class="math inline">\(\Phi\)</span>.</p>
-<p>Zapisujemy to jako:</p>
 <p><span class="math display">\[\begin{equation}
-\Phi^T r = 0.
+\sum_{i=1}^{m}
+t_i^2\left(w_0+w_1t_i+w_2t_i^2-y_i\right)=0.
 \end{equation}\]</span></p>
-<p>Podstawiając <span class="math inline">\(r=y-\Phi w\)</span>, dostajemy:</p>
+<p>To są właśnie równania normalne dla modelu z bazą <span class="math inline">\(1,t,t^2\)</span>.</p>
+<p>W zapisie macierzowym te trzy równania można zapisać krótko jako:</p>
 <p><span class="math display">\[\begin{equation}
-\Phi^T(y-\Phi w)=0.
+\Phi^T(\Phi w-y)=0.
 \end{equation}\]</span></p>
-<p>Po przekształceniu:</p>
-<p><span class="math display">\[\begin{equation}
-\Phi^T y - \Phi^T\Phi w = 0.
-\end{equation}\]</span></p>
-<p>Stąd:</p>
-<p><span class="math display">\[\begin{equation}
-\Phi^T\Phi w = \Phi^T y.
-\end{equation}\]</span></p>
-<p>To są właśnie równania normalne.</p>
-</section>
-<section id="interpretacja-geometryczna" class="level3" data-number="2.2.2">
-<h3 data-number="2.2.2" class="anchored" data-anchor-id="interpretacja-geometryczna"><span class="header-section-number">2.2.2</span> Interpretacja geometryczna</h3>
 <p>Wektor <span class="math inline">\(y\)</span> reprezentuje prawdziwe pomiary. Wektor <span class="math inline">\(\Phi w\)</span> reprezentuje predykcje modelu. Wszystkie możliwe predykcje <span class="math inline">\(\Phi w\)</span> tworzą pewną podprzestrzeń.</p>
 <p>Szukamy punktu <span class="math inline">\(\Phi w\)</span> w tej podprzestrzeni, który leży najbliżej <span class="math inline">\(y\)</span>. Jest to rzut prostopadły wektora <span class="math inline">\(y\)</span> na przestrzeń generowaną przez kolumny macierzy <span class="math inline">\(\Phi\)</span>.</p>
 <p>Dlatego błąd:</p>
@@ -502,10 +491,9 @@ r = y-\Phi w.
 r=y-\Phi w
 \end{equation}\]</span></p>
 <p>musi być prostopadły do tej przestrzeni.</p>
-</section>
-<section id="w-pythonie" class="level3" data-number="2.2.3">
-<h3 data-number="2.2.3" class="anchored" data-anchor-id="w-pythonie"><span class="header-section-number">2.2.3</span> W Pythonie</h3>
-<div id="667422fe" class="cell" data-execution_count="1">
+<div id="5a749ccd" class="cell" data-execution_count="1">
+<details class="code-fold">
+<summary>Pokaż kod</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>t <span class="op">=</span> np.array([<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>], dtype<span class="op">=</span><span class="bu">float</span>)</span>
@@ -523,6 +511,7 @@ r=y-\Phi w
 <span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>w <span class="op">=</span> np.linalg.solve(A, b)</span>
 <span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(w)</span></code></pre></div><button title="Kopiuj do schowka" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 <div class="cell-output cell-output-stdout">
 <pre><code>[ 0.97714286  2.91571429 -0.72142857]</code></pre>
 </div>
@@ -538,95 +527,41 @@ A=\Phi^T\Phi,
 b=\Phi^T y.
 \end{equation}\]</span></p>
 <p>Czyli zamiast iteracyjnie poprawiać wagi, dostajemy je bezpośrednio przez rozwiązanie jednego układu równań liniowych.</p>
-<p>konieiiii</p>
-<div id="151a67e2" class="cell" data-execution_count="2">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Dane pomiarowe</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>t <span class="op">=</span> np.array([<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>], dtype<span class="op">=</span><span class="bu">float</span>)</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> np.array([<span class="fl">1.0</span>, <span class="fl">3.1</span>, <span class="fl">4.0</span>, <span class="fl">3.2</span>, <span class="fl">1.1</span>], dtype<span class="op">=</span><span class="bu">float</span>)</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> model(t, w0, w1, w2):</span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> w0 <span class="op">+</span> w1 <span class="op">*</span> t <span class="op">+</span> w2 <span class="op">*</span> t<span class="op">**</span><span class="dv">2</span></span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> loss(w0, w1, w2):</span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    y_pred <span class="op">=</span> model(t, w0, w1, w2)</span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.mean((y_pred <span class="op">-</span> y)<span class="op">**</span><span class="dv">2</span>)</span></code></pre></div><button title="Kopiuj do schowka" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<p>Najpierw możemy sprawdzić kilka przykładowych parabol.</p>
-<div id="ff2def2c" class="cell" data-execution_count="3">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>candidates <span class="op">=</span> [</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    (<span class="fl">1.0</span>, <span class="fl">1.0</span>, <span class="fl">0.0</span>),</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    (<span class="fl">1.0</span>, <span class="fl">2.0</span>, <span class="op">-</span><span class="fl">0.3</span>),</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    (<span class="fl">1.0</span>, <span class="fl">3.0</span>, <span class="op">-</span><span class="fl">0.7</span>),</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    (<span class="fl">0.5</span>, <span class="fl">3.0</span>, <span class="op">-</span><span class="fl">0.7</span>)</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>]</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> w0, w1, w2 <span class="kw">in</span> candidates:</span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(</span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>        <span class="ss">f"w0=</span><span class="sc">{</span>w0<span class="sc">:4.1f}</span><span class="ss">, w1=</span><span class="sc">{</span>w1<span class="sc">:4.1f}</span><span class="ss">, w2=</span><span class="sc">{</span>w2<span class="sc">:5.1f}</span><span class="ss">, "</span></span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>        <span class="ss">f"L=</span><span class="sc">{</span>loss(w0, w1, w2)<span class="sc">:.4f}</span><span class="ss">"</span></span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    )</span></code></pre></div><button title="Kopiuj do schowka" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>w0= 1.0, w1= 1.0, w2=  0.0, L=3.6120
-w0= 1.0, w1= 2.0, w2= -0.3, L=2.2040
-w0= 1.0, w1= 3.0, w2= -0.7, L=0.1640
-w0= 0.5, w1= 3.0, w2= -0.7, L=0.0940</code></pre>
-</div>
-</div>
-<p>Teraz zamiast zgadywać jedną parabolę, przeszukamy wiele możliwych wartości wag. To jest bardzo prosty sposób minimalizacji: sprawdzamy dużo kombinacji i wybieramy najlepszą.</p>
-<div id="cef74063" class="cell" data-execution_count="4">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>w0_values <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">2</span>, <span class="dv">41</span>)</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>w1_values <span class="op">=</span> np.linspace(<span class="dv">1</span>, <span class="dv">4</span>, <span class="dv">61</span>)</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>w2_values <span class="op">=</span> np.linspace(<span class="op">-</span><span class="fl">1.5</span>, <span class="dv">0</span>, <span class="dv">61</span>)</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>best_loss <span class="op">=</span> np.inf</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>best_weights <span class="op">=</span> <span class="va">None</span></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> w0 <span class="kw">in</span> w0_values:</span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> w1 <span class="kw">in</span> w1_values:</span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> w2 <span class="kw">in</span> w2_values:</span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>            current_loss <span class="op">=</span> loss(w0, w1, w2)</span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> current_loss <span class="op">&lt;</span> best_loss:</span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>                best_loss <span class="op">=</span> current_loss</span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>                best_weights <span class="op">=</span> (w0, w1, w2)</span>
-<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>w0_best, w1_best, w2_best <span class="op">=</span> best_weights</span>
-<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Najlepsze znalezione wagi:"</span>)</span>
-<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"w0 = </span><span class="sc">{</span>w0_best<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
-<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"w1 = </span><span class="sc">{</span>w1_best<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
-<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"w2 = </span><span class="sc">{</span>w2_best<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
-<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"L  = </span><span class="sc">{</span>best_loss<span class="sc">:.6f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Kopiuj do schowka" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Najlepsze znalezione wagi:
-w0 = 0.9500
-w1 = 2.9500
-w2 = -0.7250
-L  = 0.003750</code></pre>
-</div>
+<div id="5b6413a9" class="cell" data-execution_count="2">
+<details class="code-fold">
+<summary>Pokaż kod</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> model(t, w):</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> w[<span class="dv">0</span>] <span class="op">+</span> w[<span class="dv">1</span>] <span class="op">*</span> t <span class="op">+</span> w[<span class="dv">2</span>] <span class="op">*</span> t<span class="op">**</span><span class="dv">2</span></span></code></pre></div><button title="Kopiuj do schowka" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 </div>
 <p>Otrzymaliśmy więc przybliżony model:</p>
 <p><span class="math display">\[\begin{equation}
 F(t;w)=w_0+w_1t+w_2t^2.
 \end{equation}\]</span></p>
 <p>Możemy go teraz narysować razem z danymi.</p>
-<div id="0be39c93" class="cell" data-execution_count="5">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>t_grid <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">4</span>, <span class="dv">200</span>)</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>y_grid <span class="op">=</span> model(t_grid, w0_best, w1_best, w2_best)</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>plt.scatter(t, y, label<span class="op">=</span><span class="st">"Dane pomiarowe"</span>)</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>plt.plot(t_grid, y_grid, label<span class="op">=</span><span class="st">"Najlepsza znaleziona parabola"</span>)</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"czas t"</span>)</span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"wysokość y"</span>)</span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Kopiuj do schowka" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="c0daacc2" class="cell" data-fig-height="4" data-fig-width="7" data-execution_count="3">
+<details class="code-fold">
+<summary>Pokaż kod</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>t_grid <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">4</span>, <span class="dv">200</span>)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>y_grid <span class="op">=</span> model(t_grid, w)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">7</span>, <span class="dv">4</span>), constrained_layout<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>ax.scatter(t, y, label<span class="op">=</span><span class="st">"Dane pomiarowe"</span>)</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>ax.plot(t_grid, y_grid, label<span class="op">=</span><span class="st">"Najlepsza znaleziona parabola"</span>)</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"czas $t$"</span>)</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"wysokość $y$"</span>)</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>ax.legend()</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Kopiuj do schowka" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 <div class="cell-output cell-output-display">
-<div>
+<div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="01_Supervised_Learning_files/figure-html/cell-6-output-1.png" width="590" height="429" class="figure-img"></p>
+<p><img src="01_Supervised_Learning_files/figure-html/cell-4-output-1.png" class="quarto-figure quarto-figure-center figure-img" width="683" height="395"></p>
 </figure>
 </div>
 </div>
@@ -642,7 +577,6 @@ F(t;w)=w_0+w_1t+w_2t^2.
 <li><span class="math inline">\(w_0,w_1,w_2\)</span> są parametrami modelu,</li>
 <li>funkcje <span class="math inline">\(1,t,t^2\)</span> tworzą bazę wielomianową.</li>
 </ul>
-</section>
 </div>
 <p>„Najlepszy” parametr <span class="math inline">\(w \in W\)</span> niekoniecznie jest tym, który minimalizuje stratę na zbiorze danych. W każdym problemie optymalizacyjnym częstym problemem jest <strong>przeuczenie</strong> (<em>overfitting</em>). Prowadzi nas to do <strong>regularyzacji</strong>.</p>
 <p>Techniki regularyzacji dla sieci neuronowych omówimy szerzej później. Na razie wspomnimy tylko, że <strong>regularyzacja parametrów</strong> jest powszechną techniką znaną z regresji, często stosowaną również w sieciach neuronowych. Ten typ regularyzacji polega na dodaniu do straty na danych składnika karzącego, który zniechęca parametry do przyjmowania niepożądanych wartości, na przykład zbyt dużych. Zmodyfikowany problem optymalizacyjny ma postać</p>
